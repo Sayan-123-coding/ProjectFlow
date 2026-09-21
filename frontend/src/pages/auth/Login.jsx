@@ -20,12 +20,15 @@ export default function Login() {
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message.includes('Invalid login credentials')) {
+        setError('Invalid email or password.');
+      } else {
+        setError(error.message);
+      }
       setLoading(false);
     } else {
       // successful login will automatically trigger the AuthContext state change 
-      // and redirect through the protected route logic, but we can also manually navigate
-      navigate('/dashboard');
+      // and redirect through the protected route logic.
     }
   };
 

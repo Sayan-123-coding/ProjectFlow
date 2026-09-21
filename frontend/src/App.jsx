@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { WorkspaceProvider } from './context/WorkspaceContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import AppLayout from './layouts/AppLayout';
@@ -12,7 +13,8 @@ import Dashboard from './pages/app/Dashboard';
 export default function App() {
   return (
     <AuthProvider>
-      <Routes>
+      <WorkspaceProvider>
+        <Routes>
         {/* Public auth routes */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
@@ -32,6 +34,7 @@ export default function App() {
         {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
+      </WorkspaceProvider>
     </AuthProvider>
   );
 }

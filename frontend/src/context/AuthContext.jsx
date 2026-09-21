@@ -1,46 +1,85 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { api } from '../services/api';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const loadUserData = async () => {
+    try {
+      const [userRes, profileRes] = await Promise.all([
+        api.get('/auth/me'),
+        api.get('/profile')
+      ]);
+      setUser(userRes.user);
+      setProfile(profileRes.profile);
+    } catch (err) {
+      console.error('Failed to load user data:', err);
+      setUser(null);
+      setProfile(null);
+    }
+  };
+
   useEffect(() => {
-    // 1. Retrieve the current session when the app starts
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    let mounted = true;
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!mounted) return;
+      
       setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
+      
+      if (session) {
+        if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
+          await loadUserData();
+        }
+      } else {
+        setUser(null);
+        setProfile(null);
+      }
+      
+      if (mounted) {
+        setLoading(false);
+      }
     });
 
-    // 2. Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // 3. Clean up the auth listener
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {
     await supabase.auth.signOut();
   };
 
+  const refreshProfile = async () => {
+    if (session) {
+      try {
+        const profileRes = await api.get('/profile');
+        setProfile(profileRes.profile);
+      } catch (err) {
+        console.error('Failed to refresh profile', err);
+      }
+    }
+  };
+
   const value = {
     session,
     user,
+    profile,
     loading,
     signOut,
+    refreshProfile
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

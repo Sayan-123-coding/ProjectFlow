@@ -7,6 +7,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -14,8 +15,9 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccessMessage(null);
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -29,8 +31,12 @@ export default function Register() {
       setError(error.message);
       setLoading(false);
     } else {
-      // Supabase handles the session creation if email confirmation is disabled
-      navigate('/dashboard');
+      if (!data.session) {
+        setSuccessMessage('Registration successful. Please check your email to confirm your account before logging in.');
+        setLoading(false);
+      } else {
+        // Automatically redirects if session exists
+      }
     }
   };
 
@@ -44,6 +50,12 @@ export default function Register() {
         {error && (
           <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
             {error}
+          </div>
+        )}
+        
+        {successMessage && (
+          <div className="rounded-md bg-green-50 p-4 text-sm text-green-700">
+            {successMessage}
           </div>
         )}
 

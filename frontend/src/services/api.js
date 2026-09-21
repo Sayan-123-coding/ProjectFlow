@@ -21,9 +21,15 @@ async function fetchWithAuth(endpoint, options = {}) {
     headers,
   });
 
-  // Handle No Content (204) responses properly by not attempting to parse JSON
   if (response.status === 204) {
     return null;
+  }
+
+  if (response.status === 401) {
+    await supabase.auth.signOut();
+    const error = new Error('Unauthorized');
+    error.status = 401;
+    throw error;
   }
 
   const responseData = await response.json().catch(() => null);
