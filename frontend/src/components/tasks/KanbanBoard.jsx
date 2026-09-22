@@ -48,21 +48,26 @@ export default function KanbanBoard({ tasks, projectMembers, onUpdate, onDelete,
         return (
           <div 
             key={col.id} 
-            className="flex-shrink-0 w-80 flex flex-col bg-gray-50 rounded-lg p-4 border border-gray-200"
+            className={`flex-shrink-0 w-[340px] flex flex-col surface-0 rounded-2xl transition-colors duration-200 p-2 ${
+              draggedTaskId ? 'border-pf-600/50 bg-pf-900/60' : ''
+            }`}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, col.id)}
           >
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-sm font-bold text-gray-700">{col.title}</h4>
-              <span className="inline-flex items-center rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-700">
+            <div className="flex items-center justify-between mb-3 px-3 py-2">
+              <h4 className="text-sm font-bold text-pf-200 tracking-wide">{col.title}</h4>
+              <span className="inline-flex items-center justify-center min-w-[24px] h-6 rounded-md bg-pf-800/40 px-2 text-[11px] font-bold text-pf-200 border border-pf-600/20">
                 {columnTasks.length}
               </span>
             </div>
             
-            <div className="flex-1 space-y-4 min-h-[200px]">
+            <div className="flex-1 space-y-3 min-h-[200px] bg-pf-900/30 rounded-xl p-2 border border-pf-800/20">
               {columnTasks.length === 0 ? (
-                <div className="h-full border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center p-4">
-                  <span className="text-sm text-gray-400">Drop tasks here</span>
+                <div className="h-full min-h-[150px] border-2 border-dashed border-pf-800/50 rounded-xl flex flex-col items-center justify-center p-4">
+                  <svg className="w-8 h-8 text-pf-600 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <span className="text-[13px] font-medium text-pf-400">No tasks</span>
                 </div>
               ) : (
                 columnTasks.map(task => (
@@ -71,7 +76,9 @@ export default function KanbanBoard({ tasks, projectMembers, onUpdate, onDelete,
                     draggable
                     onDragStart={(e) => handleDragStart(e, task.id)}
                     onDragEnd={handleDragEnd}
-                    className={`cursor-grab active:cursor-grabbing transition-opacity ${draggedTaskId === task.id ? 'opacity-50' : 'opacity-100'}`}
+                    className={`cursor-grab active:cursor-grabbing transition-all duration-200 ${
+                      draggedTaskId === task.id ? 'opacity-40 scale-[0.98]' : 'opacity-100 hover:-translate-y-[1px]'
+                    }`}
                   >
                     <TaskCard
                       task={task}

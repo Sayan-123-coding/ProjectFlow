@@ -37,22 +37,22 @@ export default function CreateWorkspaceModal({ isOpen, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
+        className="fixed inset-0 bg-[#09090b]/80 backdrop-blur-sm transition-opacity" 
         onClick={onClose}
         aria-hidden="true"
       ></div>
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-md bg-white rounded-xl shadow-2xl p-6 border border-gray-100 transform transition-all">
+      <div className="relative w-full max-w-md surface-2 rounded-2xl p-7 border border-pf-800/30 shadow-xl transform transition-all">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-xl font-bold text-gray-900">Create Workspace</h3>
-            <p className="text-sm text-gray-500 mt-1">Set up a new workspace for your team and projects.</p>
+            <h3 className="text-2xl font-bold text-pf-100 tracking-wide">Create Workspace</h3>
+            <p className="text-[13px] font-medium text-pf-400 mt-2">Set up a new workspace for your team and projects.</p>
           </div>
           <button 
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors rounded-full p-1 hover:bg-gray-100"
+            className="text-pf-400 hover:text-pf-200 transition-colors rounded-full p-1.5 hover:bg-pf-800/30"
             aria-label="Close modal"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,14 +62,14 @@ export default function CreateWorkspaceModal({ isOpen, onClose }) {
         </div>
 
         {error && (
-          <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700 border border-red-100">
+          <div className="mb-5 rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="workspaceName" className="block text-sm font-semibold text-gray-700 mb-1">
+            <label htmlFor="workspaceName" className="block text-[13px] font-bold text-pf-200 uppercase tracking-widest mb-2">
               Workspace Name *
             </label>
             <input
@@ -77,43 +77,43 @@ export default function CreateWorkspaceModal({ isOpen, onClose }) {
               id="workspaceName"
               required
               placeholder="e.g. Acme Engineering"
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 shadow-sm"
+              className="input-dark w-full"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           
           <div>
-            <label htmlFor="workspaceDescription" className="block text-sm font-semibold text-gray-700 mb-1">
+            <label htmlFor="workspaceDescription" className="block text-[13px] font-bold text-pf-200 uppercase tracking-widest mb-2">
               Description
             </label>
             <textarea
               id="workspaceDescription"
-              rows={3}
+              rows={4}
               placeholder="e.g. Core workspace for product sprints"
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 shadow-sm resize-none"
+              className="input-dark w-full resize-none"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-2 border-t border-gray-50 mt-6">
+          <div className="flex justify-end gap-4 pt-4 border-t border-pf-800/50 mt-8">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              className="btn-secondary"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed min-w-[140px]"
+              className="btn-primary flex items-center justify-center min-w-[150px]"
             >
               {loading ? (
                 <>
-                  <svg className="w-4 h-4 mr-2 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 mr-2 animate-spin text-pf-900" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>

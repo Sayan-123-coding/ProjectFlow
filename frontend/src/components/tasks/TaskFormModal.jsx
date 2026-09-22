@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react';
-import { taskService } from '../../services/task.service';
-
 export default function TaskFormModal({ task, projectId, projectMembers, onClose, onSuccess }) {
   const isEditing = !!task;
   
@@ -68,23 +65,23 @@ export default function TaskFormModal({ task, projectId, projectMembers, onClose
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose}></div>
-        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+        <div className="fixed inset-0 bg-pf-900/80 backdrop-blur-md transition-opacity" onClick={onClose}></div>
+        <div className="relative transform overflow-hidden rounded-2xl surface-2 border border-pf-600/20 text-left transition-all sm:my-8 sm:w-full sm:max-w-2xl shadow-2xl">
           <form onSubmit={handleSubmit}>
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <h3 className="text-lg font-semibold leading-6 text-gray-900 mb-4">
+            <div className="px-6 pb-6 pt-6">
+              <h3 className="text-xl font-bold leading-6 text-pf-100 mb-5 tracking-wide">
                 {isEditing ? 'Edit Task' : 'Create New Task'}
               </h3>
               
               {error && (
-                <div className="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+                <div className="mb-5 rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
                   {error}
                 </div>
               )}
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Task Title</label>
+                  <label htmlFor="title" className="block text-sm font-semibold leading-6 text-pf-200">Task Title</label>
                   <div className="mt-2">
                     <input
                       type="text"
@@ -93,83 +90,83 @@ export default function TaskFormModal({ task, projectId, projectMembers, onClose
                       required
                       value={formData.title}
                       onChange={handleChange}
-                      className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm sm:leading-6 border"
+                      className="input-dark w-full"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                  <label htmlFor="description" className="block text-sm font-semibold leading-6 text-pf-200">Description</label>
                   <div className="mt-2">
                     <textarea
                       id="description"
                       name="description"
-                      rows={3}
+                      rows={4}
                       value={formData.description}
                       onChange={handleChange}
-                      className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm sm:leading-6 border"
+                      className="input-dark w-full resize-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {isEditing && (
                     <div>
-                      <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">Status</label>
+                      <label htmlFor="status" className="block text-sm font-semibold leading-6 text-pf-200">Status</label>
                       <div className="mt-2">
                         <select
                           id="status"
                           name="status"
                           value={formData.status}
                           onChange={handleChange}
-                          className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm border"
+                          className="input-dark w-full"
                         >
-                          <option value="TODO">To Do</option>
-                          <option value="IN_PROGRESS">In Progress</option>
-                          <option value="COMPLETED">Completed</option>
+                          <option value="TODO" className="bg-pf-900">To Do</option>
+                          <option value="IN_PROGRESS" className="bg-pf-900">In Progress</option>
+                          <option value="COMPLETED" className="bg-pf-900">Completed</option>
                         </select>
                       </div>
                     </div>
                   )}
 
                   <div>
-                    <label htmlFor="priority" className="block text-sm font-medium leading-6 text-gray-900">Priority</label>
+                    <label htmlFor="priority" className="block text-sm font-semibold leading-6 text-pf-200">Priority</label>
                     <div className="mt-2">
                       <select
                         id="priority"
                         name="priority"
                         value={formData.priority}
                         onChange={handleChange}
-                        className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm border"
+                        className="input-dark w-full"
                       >
-                        <option value="LOW">Low</option>
-                        <option value="MEDIUM">Medium</option>
-                        <option value="HIGH">High</option>
-                        <option value="URGENT">Urgent</option>
+                        <option value="LOW" className="bg-pf-900">Low</option>
+                        <option value="MEDIUM" className="bg-pf-900">Medium</option>
+                        <option value="HIGH" className="bg-pf-900">High</option>
+                        <option value="URGENT" className="bg-pf-900">Urgent</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="assignee_id" className="block text-sm font-medium leading-6 text-gray-900">Assignee</label>
+                    <label htmlFor="assignee_id" className="block text-sm font-semibold leading-6 text-pf-200">Assignee</label>
                     <div className="mt-2">
                       <select
                         id="assignee_id"
                         name="assignee_id"
                         value={formData.assignee_id}
                         onChange={handleChange}
-                        className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-gray-900 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm border"
+                        className="input-dark w-full"
                       >
-                        <option value="">Unassigned</option>
+                        <option value="" className="bg-pf-900">Unassigned</option>
                         {projectMembers.map(m => (
-                          <option key={m.userId} value={m.userId}>{m.fullName}</option>
+                          <option key={m.userId} value={m.userId} className="bg-pf-900">{m.fullName}</option>
                         ))}
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="due_date" className="block text-sm font-medium leading-6 text-gray-900">Due Date</label>
+                    <label htmlFor="due_date" className="block text-sm font-semibold leading-6 text-pf-200">Due Date</label>
                     <div className="mt-2">
                       <input
                         type="date"
@@ -177,25 +174,25 @@ export default function TaskFormModal({ task, projectId, projectMembers, onClose
                         name="due_date"
                         value={formData.due_date}
                         onChange={handleChange}
-                        className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm sm:leading-6 border"
+                        className="input-dark w-full"
                       />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <div className="px-6 py-5 bg-pf-900/50 sm:flex sm:flex-row-reverse border-t border-pf-800/50">
               <button
                 type="submit"
                 disabled={loading || !formData.title.trim()}
-                className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto disabled:bg-indigo-400"
+                className="btn-primary w-full sm:ml-3 sm:w-auto"
               >
                 {loading ? 'Saving...' : (isEditing ? 'Save Changes' : 'Create Task')}
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                className="btn-secondary mt-3 w-full sm:mt-0 sm:w-auto"
               >
                 Cancel
               </button>

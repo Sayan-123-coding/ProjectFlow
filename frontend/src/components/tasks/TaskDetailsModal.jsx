@@ -49,20 +49,20 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'TODO': return 'bg-gray-100 text-gray-800';
-      case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
-      case 'COMPLETED': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'TODO': return 'badge-neutral';
+      case 'IN_PROGRESS': return 'badge-blue';
+      case 'COMPLETED': return 'badge-green';
+      default: return 'badge-neutral';
     }
   };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'LOW': return 'bg-gray-100 text-gray-800';
-      case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
-      case 'HIGH': return 'bg-orange-100 text-orange-800';
-      case 'URGENT': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'LOW': return 'badge-neutral';
+      case 'MEDIUM': return 'badge-yellow';
+      case 'HIGH': return 'badge-orange';
+      case 'URGENT': return 'badge-red';
+      default: return 'badge-neutral';
     }
   };
 
@@ -85,37 +85,37 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
     <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
       <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div 
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+          className="fixed inset-0 bg-pf-900/80 backdrop-blur-md transition-opacity" 
           aria-hidden="true"
           onClick={onClose}
         ></div>
 
-        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+        <div className="relative transform overflow-hidden rounded-2xl surface-2 border border-pf-600/20 text-left transition-all sm:my-8 sm:w-full sm:max-w-3xl shadow-2xl">
           {/* Header */}
-          <div className="bg-white px-6 py-5 border-b border-gray-200 flex justify-between items-start">
-            <h3 className="text-xl font-semibold leading-6 text-gray-900 pr-8 break-words">
+          <div className="px-6 py-5 border-b border-pf-800/50 flex justify-between items-start bg-pf-900/40">
+            <h3 className="text-xl font-bold leading-6 text-pf-100 pr-8 break-words tracking-wide">
               {task.title}
             </h3>
             <button
               type="button"
-              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-full text-pf-400 hover:text-pf-100 p-1 hover:bg-pf-800/50 transition-colors focus:outline-none"
               onClick={onClose}
             >
               <span className="sr-only">Close</span>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
           {/* Body */}
-          <div className="bg-gray-50 px-6 py-6 sm:flex sm:flex-row h-[70vh] overflow-y-auto">
+          <div className="px-6 py-6 sm:flex sm:flex-row h-[70vh] overflow-y-auto">
             {/* Left Column: Details */}
             <div className="sm:w-2/3 sm:pr-8">
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-500 mb-2">Description</h4>
-                <div className="text-sm text-gray-900 bg-white p-4 rounded-md border border-gray-200 min-h-[100px] whitespace-pre-wrap">
-                  {task.description || <span className="text-gray-400 italic">No description provided.</span>}
+                <h4 className="text-sm font-semibold text-pf-200 mb-2">Description</h4>
+                <div className="text-[13px] text-pf-400 bg-pf-900/30 p-4 rounded-xl border border-pf-800/30 min-h-[100px] whitespace-pre-wrap leading-relaxed">
+                  {task.description || <span className="text-pf-600 italic font-medium">No description provided.</span>}
                 </div>
               </div>
 
@@ -126,7 +126,7 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
                     onClose(); // Close details
                     onEdit(); // Trigger edit modal in TaskList
                   }}
-                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  className="btn-secondary"
                 >
                   Edit Task
                 </button>
@@ -136,36 +136,36 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
                     onClose(); // Close details
                     onDelete(); // Trigger delete logic
                   }}
-                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  className="inline-flex items-center justify-center rounded-lg bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] px-4 py-2 text-[13px] font-bold text-red-400 hover:bg-[rgba(239,68,68,0.15)] hover:text-red-300 transition-colors tracking-wide"
                 >
                   Delete
                 </button>
               </div>
 
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-4 border-b border-gray-200 pb-2">Activity History</h4>
+                <h4 className="text-sm font-semibold text-pf-200 mb-4 border-b border-pf-800/30 pb-2">Activity History</h4>
                 
                 {loadingActivities ? (
-                  <div className="text-sm text-gray-500 text-center py-4">Loading activity...</div>
+                  <div className="text-[13px] text-pf-600 font-medium text-center py-4">Loading activity...</div>
                 ) : activityError ? (
-                  <div className="text-sm text-red-500 bg-red-50 p-3 rounded-md">{activityError}</div>
+                  <div className="text-[13px] text-[rgba(248,113,113,0.9)] bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-3 rounded-xl font-medium">{activityError}</div>
                 ) : activities.length === 0 ? (
-                  <div className="text-sm text-gray-500 italic">No activity yet.</div>
+                  <div className="text-[13px] text-pf-600 italic font-medium">No activity yet.</div>
                 ) : (
                   <ul className="space-y-4">
                     {activities.map((activity, idx) => (
                       <li key={activity.id} className="relative flex gap-x-4">
                         {idx !== activities.length - 1 && (
                           <div className="absolute left-0 top-0 flex w-6 justify-center -bottom-4">
-                            <div className="w-px bg-gray-200" />
+                            <div className="w-px bg-pf-800/50" />
                           </div>
                         )}
-                        <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
-                          <div className="h-1.5 w-1.5 rounded-full bg-gray-300 ring-1 ring-gray-300" />
+                        <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-transparent">
+                          <div className="h-1.5 w-1.5 rounded-full bg-pf-400 ring-1 ring-pf-600/50" />
                         </div>
-                        <div className="flex-auto py-0.5 text-sm leading-5 text-gray-500">
-                          <div className="mb-1">{renderActivityText(activity, projectMembers)}</div>
-                          <time className="text-xs text-gray-400">
+                        <div className="flex-auto py-0.5 text-[13px] leading-5 text-pf-400">
+                          <div className="mb-1 text-pf-200 font-medium">{renderActivityText(activity, projectMembers)}</div>
+                          <time className="text-[11px] text-pf-600 font-semibold tracking-wide">
                             {formatActivityTime(activity.created_at)}
                           </time>
                         </div>
@@ -177,55 +177,55 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
             </div>
 
             {/* Right Column: Meta */}
-            <div className="mt-8 sm:mt-0 sm:w-1/3 space-y-6 bg-white p-4 rounded-md border border-gray-200 h-fit">
+            <div className="mt-8 sm:mt-0 sm:w-1/3 space-y-6 bg-pf-900/30 p-5 rounded-xl border border-pf-800/30 h-fit">
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Status</h4>
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Status</h4>
+                <span className={getStatusColor(task.status)}>
                   {task.status.replace('_', ' ')}
                 </span>
               </div>
               
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Priority</h4>
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Priority</h4>
+                <span className={getPriorityColor(task.priority)}>
                   {task.priority}
                 </span>
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Assignee</h4>
-                <div className="text-sm text-gray-900 font-medium">
-                  {getMemberName(task.assignee_id) || <span className="text-gray-400 italic font-normal">Unassigned</span>}
+              <div className="pt-4 border-t border-pf-800/30">
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Assignee</h4>
+                <div className="text-[13px] text-pf-200 font-semibold">
+                  {getMemberName(task.assignee_id) || <span className="text-pf-600 italic font-medium">Unassigned</span>}
                 </div>
               </div>
 
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Creator</h4>
-                <div className="text-sm text-gray-900">
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Creator</h4>
+                <div className="text-[13px] text-pf-200 font-semibold">
                   {getMemberName(task.creator_id)}
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+              <div className="pt-4 border-t border-pf-800/30">
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2 flex items-center gap-2">
                   Due Date
-                  {isOverdue && <span className="inline-flex items-center rounded-md bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-700 ring-1 ring-inset ring-red-600/10">⚠ OVERDUE</span>}
+                  {isOverdue && <span className="inline-flex items-center rounded-md bg-[rgba(239,68,68,0.15)] border border-[rgba(239,68,68,0.3)] px-1.5 py-0.5 text-[10px] font-bold text-red-400">⚠ OVERDUE</span>}
                 </h4>
-                <div className="text-sm text-gray-900">
+                <div className="text-[13px] text-pf-200 font-semibold">
                   {formatDate(task.due_date)}
                 </div>
               </div>
 
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Created</h4>
-                <div className="text-sm text-gray-500">
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Created</h4>
+                <div className="text-[13px] text-pf-400 font-medium">
                   {formatDate(task.created_at)}
                 </div>
               </div>
               
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Updated</h4>
-                <div className="text-sm text-gray-500">
+                <h4 className="text-[11px] font-bold text-pf-600 uppercase tracking-widest mb-2">Updated</h4>
+                <div className="text-[13px] text-pf-400 font-medium">
                   {formatDate(task.updated_at)}
                 </div>
               </div>

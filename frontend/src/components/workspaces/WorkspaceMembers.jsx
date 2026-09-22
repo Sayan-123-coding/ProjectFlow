@@ -127,7 +127,7 @@ export default function WorkspaceMembers({ workspaceId }) {
         <div className="flex justify-end">
           <button
             onClick={() => setShowInviteForm(!showInviteForm)}
-            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+            className="btn-primary"
           >
             {showInviteForm ? 'Cancel' : '+ Invite Member'}
           </button>
@@ -135,10 +135,10 @@ export default function WorkspaceMembers({ workspaceId }) {
       )}
 
       {showInviteForm && isOwnerOrManager && (
-        <div className="bg-gray-50 p-4 rounded-md shadow-sm border border-gray-200">
-          <form onSubmit={handleInvite} className="flex flex-col sm:flex-row items-end gap-4">
+        <div className="surface-2 p-5 sm:rounded-2xl shadow-sm border border-pf-800/30">
+          <form onSubmit={handleInvite} className="flex flex-col sm:flex-row items-end gap-5">
             <div className="flex-1 w-full">
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+              <label htmlFor="email" className="block text-sm font-bold leading-6 text-pf-200">Email address</label>
               <div className="mt-2">
                 <input
                   type="email"
@@ -146,56 +146,56 @@ export default function WorkspaceMembers({ workspaceId }) {
                   required
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="input-dark mt-1"
                   placeholder="user@example.com"
                 />
               </div>
             </div>
             <div className="w-full sm:w-48">
-              <label htmlFor="role" className="block text-sm font-medium leading-6 text-gray-900">Role</label>
+              <label htmlFor="role" className="block text-sm font-bold leading-6 text-pf-200">Role</label>
               <div className="mt-2">
                 <select
                   id="role"
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="input-dark mt-1"
                 >
-                  <option value="member">Member</option>
-                  <option value="admin">Admin</option>
+                  <option value="member" className="bg-pf-900">Member</option>
+                  <option value="admin" className="bg-pf-900">Admin</option>
                 </select>
               </div>
             </div>
             <button
               type="submit"
               disabled={isInviting}
-              className="mt-4 sm:mt-0 inline-flex w-full sm:w-auto items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+              className="btn-primary mt-4 sm:mt-0 w-full sm:w-auto"
             >
               {isInviting ? 'Inviting...' : 'Invite'}
             </button>
           </form>
-          {inviteError && <p className="mt-2 text-sm text-red-600">{inviteError}</p>}
+          {inviteError && <p className="mt-3 text-sm font-semibold text-[rgba(248,113,113,0.9)]">{inviteError}</p>}
         </div>
       )}
 
       {actionError && (
-        <div className="mb-4 rounded-md bg-red-50 p-4">
-          <p className="text-sm text-red-700">{actionError}</p>
+        <div className="mb-4 rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4">
+          <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{actionError}</p>
         </div>
       )}
 
-      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead className="bg-gray-50">
+      <div className="surface-1 overflow-hidden shadow sm:rounded-2xl border border-pf-800/30">
+        <table className="min-w-full divide-y divide-pf-800/50">
+          <thead className="bg-pf-900/50">
             <tr>
-              <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">Joined</th>
-              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <th scope="col" className="py-4 pl-4 pr-3 text-left text-xs font-bold text-pf-400 uppercase tracking-widest sm:pl-6">Name</th>
+              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 uppercase tracking-widest">Role</th>
+              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 hidden sm:table-cell uppercase tracking-widest">Joined</th>
+              <th scope="col" className="relative py-4 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-pf-800/30 bg-transparent">
             {members.map((member) => {
               const isCurrentUser = member.userId === user?.id;
               const isTargetOwner = member.role === 'OWNER';
@@ -205,45 +205,45 @@ export default function WorkspaceMembers({ workspaceId }) {
               const canModify = isOwner && !isCurrentUser;
 
               return (
-                <tr key={member.id}>
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                <tr key={member.id} className="hover:bg-pf-800/30 transition-colors">
+                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-[15px] font-bold text-pf-100 sm:pl-6">
                     <div className="flex items-center">
                       {member.fullName}
                       {isCurrentUser && (
-                        <span className="ml-2 inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                        <span className="ml-3 inline-flex items-center rounded-full bg-pf-800/40 px-2 py-0.5 text-[10px] font-bold text-pf-200 border border-pf-600/20 uppercase tracking-wider">
                           You
                         </span>
                       )}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <td className="whitespace-nowrap px-3 py-4 text-[13px] font-semibold text-pf-400">
                     {canModify && !isTargetOwner ? (
                       <select
                         value={member.role}
                         disabled={updatingId === member.id || removingId === member.id}
                         onChange={(e) => handleRoleChange(member.id, e.target.value, member.role)}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 disabled:opacity-50"
+                        className="input-dark py-1.5 sm:max-w-xs disabled:opacity-50"
                       >
-                        <option value="MANAGER">MANAGER</option>
-                        <option value="MEMBER">MEMBER</option>
+                        <option value="MANAGER" className="bg-pf-900">MANAGER</option>
+                        <option value="MEMBER" className="bg-pf-900">MEMBER</option>
                       </select>
                     ) : (
-                      <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                      <span className="inline-flex items-center rounded-md bg-pf-900/50 px-2.5 py-1 text-[11px] font-bold text-pf-400 border border-pf-800/50 uppercase tracking-widest">
                         {member.role}
                       </span>
                     )}
-                    {updatingId === member.id && <span className="ml-2 text-xs text-indigo-500">Updating...</span>}
+                    {updatingId === member.id && <span className="ml-2 text-xs font-semibold text-pf-600">Updating...</span>}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
+                  <td className="whitespace-nowrap px-3 py-4 text-[13px] font-medium text-pf-400 hidden sm:table-cell">
                     {new Date(member.joinedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                   </td>
-                  <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6">
                     {canModify && !isTargetOwner && (
                       <button
                         type="button"
                         onClick={() => handleRemoveMember(member)}
                         disabled={updatingId === member.id || removingId === member.id}
-                        className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                        className="text-[rgba(248,113,113,0.9)] hover:text-red-400 transition-colors disabled:opacity-50"
                       >
                         {removingId === member.id ? 'Removing...' : 'Remove'}
                       </button>

@@ -104,11 +104,11 @@ export default function ProjectDetails() {
   if (error || !project) {
     return (
       <div className="space-y-4">
-        <Link to="/projects" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+        <Link to="/projects" className="text-sm font-medium text-orange-500 hover:text-orange-400 transition-colors">
           &larr; Back to Projects
         </Link>
-        <div className="rounded-md bg-red-50 p-4">
-          <p className="text-sm text-red-700">{error || 'Project not found'}</p>
+        <div className="rounded-xl bg-red-900/20 border border-red-900/30 p-4">
+          <p className="text-sm text-red-400">{error || 'Project not found'}</p>
         </div>
       </div>
     );
@@ -117,53 +117,53 @@ export default function ProjectDetails() {
   return (
     <div className="space-y-8">
       <div>
-        <Link to="/projects" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+        <Link to="/projects" className="text-[13px] font-bold text-pf-600 hover:text-pf-400 transition-colors tracking-wide uppercase">
           &larr; Back to Projects
         </Link>
       </div>
 
-      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+      <div className="surface-2 overflow-hidden sm:rounded-2xl border border-pf-800/30">
         {deleteError && (
-          <div className="rounded-t-lg bg-red-50 p-4 border-b border-red-200">
-            <p className="text-sm text-red-700">{deleteError}</p>
+          <div className="rounded-t-2xl bg-[rgba(239,68,68,0.1)] p-4 border-b border-[rgba(239,68,68,0.2)]">
+            <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{deleteError}</p>
           </div>
         )}
         
         {isEditing ? (
-          <div className="px-4 py-5 sm:p-6">
+          <div className="px-5 py-6 sm:p-8">
             <form onSubmit={handleUpdate}>
               {editError && (
-                <div className="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+                <div className="mb-5 rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)]">
                   {editError}
                 </div>
               )}
-              <div className="space-y-4 max-w-xl">
+              <div className="space-y-5 max-w-xl">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">Project Name</label>
+                  <label htmlFor="name" className="block text-sm font-bold text-pf-200">Project Name</label>
                   <input
                     type="text"
                     id="name"
                     required
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="input-dark mt-2"
                   />
                 </div>
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                  <label htmlFor="description" className="block text-sm font-bold text-pf-200">Description</label>
                   <textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     value={editDesc}
                     onChange={(e) => setEditDesc(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="input-dark mt-2"
                   />
                 </div>
-                <div className="flex space-x-3 pt-2">
+                <div className="flex space-x-3 pt-3">
                   <button
                     type="submit"
                     disabled={editLoading || !editName.trim()}
-                    className="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400"
+                    className="btn-primary"
                   >
                     {editLoading ? 'Saving...' : 'Save Changes'}
                   </button>
@@ -175,7 +175,7 @@ export default function ProjectDetails() {
                       setEditDesc(project.description || '');
                       setEditError(null);
                     }}
-                    className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    className="btn-secondary"
                   >
                     Cancel
                   </button>
@@ -184,29 +184,29 @@ export default function ProjectDetails() {
             </form>
           </div>
         ) : (
-          <div className="px-4 py-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div className="mb-4 sm:mb-0">
-              <h3 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+          <div className="px-5 py-6 sm:p-8 flex flex-col sm:flex-row sm:items-start sm:justify-between">
+            <div className="mb-5 sm:mb-0">
+              <h3 className="text-3xl font-bold leading-tight text-pf-100 tracking-wide sm:truncate">
                 {project.name}
               </h3>
               {project.description && (
-                <p className="mt-2 text-sm text-gray-500 max-w-3xl">
+                <p className="mt-3 text-[15px] leading-relaxed text-pf-400 max-w-3xl">
                   {project.description}
                 </p>
               )}
             </div>
             {canManageProject && (
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 sm:mt-1">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  className="btn-secondary"
                 >
                   Edit
                 </button>
                 <button
                   onClick={handleDelete}
                   disabled={deleteLoading}
-                  className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:bg-red-400"
+                  className="inline-flex items-center rounded-lg bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] px-4 py-2 text-sm font-bold text-[rgba(248,113,113,0.9)] shadow-sm hover:bg-[rgba(239,68,68,0.15)] hover:text-red-300 transition-colors disabled:bg-transparent"
                 >
                   {deleteLoading ? 'Deleting...' : 'Delete'}
                 </button>
@@ -216,14 +216,14 @@ export default function ProjectDetails() {
         )}
       </div>
 
-      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+      <div className="surface-1 overflow-hidden sm:rounded-2xl border border-pf-800/20">
         <div className="p-6">
           <ProjectMembers projectId={projectId} currentWorkspace={currentWorkspace} onPermissionsLoad={setCanManageProject} />
         </div>
       </div>
 
-      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-        <div className="p-6">
+      <div className="overflow-hidden sm:rounded-2xl bg-transparent shadow-none backdrop-blur-none p-0">
+        <div className="p-0">
           <TaskList projectId={projectId} />
         </div>
       </div>

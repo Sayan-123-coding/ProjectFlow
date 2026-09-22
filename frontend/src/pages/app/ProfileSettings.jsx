@@ -137,7 +137,7 @@ export default function ProfileSettings() {
     <div className="max-w-3xl mx-auto space-y-10">
       <div className="md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+          <h2 className="text-3xl font-bold leading-tight text-pf-100 sm:truncate tracking-wide">
             Profile Settings
           </h2>
         </div>
@@ -145,29 +145,29 @@ export default function ProfileSettings() {
 
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3">
         <div className="px-4 sm:px-0">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
+          <h2 className="text-base font-bold leading-7 text-pf-200">Personal Information</h2>
+          <p className="mt-1 text-sm leading-6 text-pf-400">
             Update your personal details and how you appear to other members.
           </p>
         </div>
 
-        <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-          <form onSubmit={handleSubmit} className="px-4 py-6 sm:p-8 space-y-6">
+        <div className="surface-1 sm:rounded-2xl md:col-span-2 border border-pf-800/30">
+          <form onSubmit={handleSubmit} className="px-5 py-6 sm:p-8 space-y-6">
             
             {error && (
-              <div className="rounded-md bg-red-50 p-4">
-                <p className="text-sm text-red-700">{error}</p>
+              <div className="rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4">
+                <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{error}</p>
               </div>
             )}
             
             {success && (
-              <div className="rounded-md bg-green-50 p-4">
-                <p className="text-sm text-green-700">Profile updated successfully.</p>
+              <div className="rounded-xl bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.2)] p-4">
+                <p className="text-sm font-semibold text-[rgba(74,222,128,0.9)]">Profile updated successfully.</p>
               </div>
             )}
 
             <div>
-              <label htmlFor="full_name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="full_name" className="block text-sm font-bold leading-6 text-pf-200">
                 Full Name
               </label>
               <div className="mt-2">
@@ -179,13 +179,13 @@ export default function ProfileSettings() {
                   onChange={handleChange}
                   disabled={saving}
                   maxLength={100}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 disabled:opacity-50"
+                  className="input-dark mt-2"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="avatar_url" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="avatar_url" className="block text-sm font-bold leading-6 text-pf-200">
                 Avatar URL
               </label>
               <div className="mt-2">
@@ -197,30 +197,30 @@ export default function ProfileSettings() {
                   onChange={handleChange}
                   disabled={saving}
                   placeholder="https://example.com/avatar.jpg"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 disabled:opacity-50"
+                  className="input-dark mt-2"
                 />
               </div>
-              <p className="mt-2 text-xs text-gray-500">Provide an optional URL for your profile picture.</p>
+              <p className="mt-2 text-xs font-medium text-pf-600">Provide an optional URL for your profile picture.</p>
             </div>
 
-            <div className="pt-6 border-t border-gray-100">
-              <h3 className="text-sm font-medium text-gray-900 mb-4">Account Information</h3>
+            <div className="pt-6 border-t border-pf-800/50">
+              <h3 className="text-sm font-bold text-pf-200 uppercase tracking-widest mb-4">Account Information</h3>
               <div>
-                <label className="block text-sm font-medium leading-6 text-gray-500">
+                <label className="block text-sm font-bold leading-6 text-pf-400">
                   Email Address
                 </label>
-                <div className="mt-1">
-                  <p className="text-sm text-gray-900 font-medium">{user?.email}</p>
-                  <p className="text-xs text-gray-500 mt-1">Email changes are not available here.</p>
+                <div className="mt-2">
+                  <p className="text-[15px] text-pf-100 font-bold">{user?.email}</p>
+                  <p className="text-xs font-medium text-pf-600 mt-2">Email changes are not available here.</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-x-6 pt-4 border-t border-gray-100">
+            <div className="flex items-center justify-end gap-x-6 pt-5 border-t border-pf-800/50">
               <button
                 type="submit"
                 disabled={!hasChanges || saving}
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary w-full sm:w-auto"
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>

@@ -1,20 +1,20 @@
 export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onClick }) {
   const getStatusColor = (status) => {
     switch (status) {
-      case 'TODO': return 'bg-gray-100 text-gray-800';
-      case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
-      case 'COMPLETED': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'TODO': return 'badge-neutral';
+      case 'IN_PROGRESS': return 'badge-blue';
+      case 'COMPLETED': return 'badge-green';
+      default: return 'badge-neutral';
     }
   };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'LOW': return 'bg-gray-100 text-gray-800';
-      case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
-      case 'HIGH': return 'bg-orange-100 text-orange-800';
-      case 'URGENT': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'LOW': return 'badge-neutral';
+      case 'MEDIUM': return 'badge-yellow';
+      case 'HIGH': return 'badge-orange';
+      case 'URGENT': return 'badge-red';
+      default: return 'badge-neutral';
     }
   };
 
@@ -26,7 +26,7 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
 
   const handleEditClick = (e) => {
     e.stopPropagation(); // prevent opening details
-    onUpdate(task); // we will refactor the internal state out in a moment
+    onUpdate(task); 
   };
 
   const handleDeleteClick = (e) => {
@@ -40,15 +40,15 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
 
   return (
     <div 
-      className={`bg-white rounded-lg border ${isOverdue ? 'border-red-300' : 'border-gray-200'} shadow-sm p-4 hover:shadow-md transition-shadow relative cursor-pointer`}
+      className={`rounded-xl border ${isOverdue ? 'border-red-500/30 bg-[rgba(239,68,68,0.05)]' : 'surface-1'} p-4 hover:border-pf-400/50 hover:shadow-md transition-all duration-200 relative cursor-pointer group`}
       onClick={() => onClick && onClick(task)}
     >
-      <div className="flex justify-between items-start mb-2">
-        <h4 className="text-lg font-semibold text-gray-900 pr-8">{task.title}</h4>
-        <div className="absolute top-4 right-4 flex space-x-2">
+      <div className="flex justify-between items-start mb-3">
+        <h4 className="text-[15px] font-bold text-pf-100 pr-10 leading-tight">{task.title}</h4>
+        <div className="absolute top-3 right-3 flex space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-pf-900/90 p-1 rounded-md border border-pf-800/50 shadow-sm">
           <button
             onClick={handleEditClick}
-            className="text-gray-400 hover:text-indigo-600"
+            className="text-pf-400 hover:text-pf-100 transition-colors"
             title="Edit Task"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,7 +57,7 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
           </button>
           <button
             onClick={handleDeleteClick}
-            className="text-gray-400 hover:text-red-600"
+            className="text-pf-400 hover:text-red-400 transition-colors"
             title="Delete Task"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,32 +67,37 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
         </div>
       </div>
         
-        {task.description && (
-          <p className="text-sm text-gray-500 mb-4 line-clamp-2">{task.description}</p>
-        )}
-        
-        <div className="flex flex-wrap gap-2 mb-3">
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
-            {task.status.replace('_', ' ')}
-          </span>
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
-            {task.priority}
-          </span>
-        </div>
-        
-        <div className="flex justify-between items-end mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500">
-          <div>
-            <span className="block mb-1">Assignee: <span className="font-medium text-gray-700">{getAssigneeName()}</span></span>
-            {task.due_date && (
-              <span className="block flex items-center gap-1.5 mt-0.5">Due: <span className="font-medium text-gray-700">{new Date(task.due_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                {isOverdue && <span className="inline-flex items-center rounded-md bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-700 ring-1 ring-inset ring-red-600/10">⚠ OVERDUE</span>}
+      {task.description && (
+        <p className="text-[13px] text-pf-400 mb-4 line-clamp-2 leading-relaxed">{task.description}</p>
+      )}
+      
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className={getStatusColor(task.status)}>
+          {task.status.replace('_', ' ')}
+        </span>
+        <span className={getPriorityColor(task.priority)}>
+          {task.priority}
+        </span>
+      </div>
+      
+      <div className="flex justify-between items-end mt-3 border-t border-pf-800/30 pt-3">
+        <div className="flex items-center space-x-2.5">
+          {/* Avatar simulation */}
+          <div className="w-6 h-6 rounded-full bg-pf-600 flex items-center justify-center text-pf-900 font-bold text-[10px]" title={getAssigneeName()}>
+            {getAssigneeName().charAt(0).toUpperCase()}
+          </div>
+          {task.due_date && (
+            <div className="flex flex-col">
+              <span className={`text-[11px] font-semibold tracking-wide ${isOverdue ? 'text-red-400' : 'text-pf-400'}`}>
+                {new Date(task.due_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
               </span>
-            )}
-          </div>
-          <div>
-            Updated: {new Date(task.updated_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-          </div>
+            </div>
+          )}
+        </div>
+        <div className="text-[10px] font-semibold text-pf-600 uppercase tracking-widest">
+          {task.id.slice(0, 5)}
         </div>
       </div>
+    </div>
   );
 }

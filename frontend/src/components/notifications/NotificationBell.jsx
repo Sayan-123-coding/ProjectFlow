@@ -78,25 +78,25 @@ export default function NotificationBell() {
         className="relative p-2 text-gray-400 hover:text-gray-500 focus:outline-none"
       >
         <span className="sr-only">View notifications</span>
-        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+        <svg className="h-6 w-6 transition-colors hover:text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white">
+          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 shadow-[0_0_8px_var(--color-brand-glow)] text-[10px] font-bold text-white">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 md:w-96 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-            <h3 className="text-sm font-semibold text-gray-900">Notifications</h3>
+        <div className="absolute right-0 mt-2 w-80 md:w-96 origin-top-right rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl focus:outline-none z-50 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-zinc-900/50">
+            <h3 className="text-sm font-semibold text-white">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
                 disabled={loading}
-                className="text-xs text-indigo-600 hover:text-indigo-800 disabled:opacity-50"
+                className="text-xs text-orange-500 hover:text-orange-400 disabled:opacity-50 transition-colors"
               >
                 Mark all as read
               </button>
@@ -108,11 +108,11 @@ export default function NotificationBell() {
                 You have no notifications.
               </div>
             ) : (
-              <ul className="divide-y divide-gray-100">
+              <ul className="divide-y divide-white/5">
                 {notifications.map((notification) => (
                   <li 
                     key={notification.id} 
-                    className={`px-4 py-3 hover:bg-gray-50 transition-colors ${!notification.is_read ? 'bg-indigo-50/30' : ''}`}
+                    className={`px-4 py-3 hover:bg-zinc-800/80 transition-colors ${!notification.is_read ? 'bg-orange-950/20' : ''}`}
                   >
                     <Link
                       to={notification.project_id ? `/projects/${notification.project_id}` : '#'}
@@ -120,17 +120,17 @@ export default function NotificationBell() {
                       className="block"
                     >
                       <div className="flex justify-between items-start">
-                        <p className={`text-sm ${!notification.is_read ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
+                        <p className={`text-sm ${!notification.is_read ? 'font-semibold text-white' : 'text-gray-400'}`}>
                           {notification.title}
                         </p>
                         {!notification.is_read && (
                           <button
                             onClick={(e) => handleMarkAsRead(notification.id, e)}
-                            className="text-[10px] text-gray-400 hover:text-indigo-600 ml-2 flex-shrink-0"
+                            className="text-[10px] text-gray-500 hover:text-orange-500 ml-2 flex-shrink-0 transition-colors"
                             title="Mark as read"
                           >
                             <span className="sr-only">Mark as read</span>
-                            <div className="h-2 w-2 rounded-full bg-indigo-600"></div>
+                            <div className="h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_5px_var(--color-brand-glow)]"></div>
                           </button>
                         )}
                       </div>

@@ -112,14 +112,14 @@ export default function WorkspaceSettings() {
     <div className="max-w-7xl mx-auto space-y-10">
       <div className="md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+          <h2 className="text-3xl font-bold leading-tight text-pf-100 sm:truncate tracking-wide">
             Workspace Settings
           </h2>
         </div>
         <div className="mt-4 flex md:ml-4 md:mt-0">
           <Link
             to="/dashboard"
-            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="btn-secondary"
           >
             Back to Dashboard
           </Link>
@@ -128,30 +128,30 @@ export default function WorkspaceSettings() {
 
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3">
         <div className="px-4 sm:px-0">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Workspace Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
+          <h2 className="text-base font-bold leading-7 text-pf-200">Workspace Information</h2>
+          <p className="mt-1 text-sm leading-6 text-pf-400">
             General information about your workspace.
           </p>
         </div>
 
-        <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
-          <div className="px-4 py-6 sm:p-8 space-y-6">
+        <div className="surface-1 shadow-sm sm:rounded-2xl md:col-span-2 border border-pf-800/30">
+          <div className="px-5 py-6 sm:p-8 space-y-6">
             <div>
-              <h3 className="text-sm font-medium text-gray-500">Workspace Name</h3>
-              <p className="mt-1 text-sm text-gray-900 font-semibold">{workspace.name}</p>
+              <h3 className="text-sm font-bold text-pf-400 uppercase tracking-widest">Workspace Name</h3>
+              <p className="mt-2 text-[15px] text-pf-100 font-bold">{workspace.name}</p>
             </div>
             
             <div>
-              <h3 className="text-sm font-medium text-gray-500">Workspace Description</h3>
-              <p className="mt-1 text-sm text-gray-900 whitespace-pre-wrap">
-                {workspace.description || <span className="text-gray-400 italic">No description</span>}
+              <h3 className="text-sm font-bold text-pf-400 uppercase tracking-widest">Workspace Description</h3>
+              <p className="mt-2 text-[15px] text-pf-200 whitespace-pre-wrap leading-relaxed">
+                {workspace.description || <span className="text-pf-600 italic font-medium">No description</span>}
               </p>
             </div>
 
-            <div className="pt-6 border-t border-gray-100">
-              <h3 className="text-sm font-medium text-gray-500">Your Role</h3>
-              <div className="mt-2">
-                <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+            <div className="pt-6 border-t border-pf-800/50">
+              <h3 className="text-sm font-bold text-pf-400 uppercase tracking-widest">Your Role</h3>
+              <div className="mt-3">
+                <span className="inline-flex items-center rounded-md bg-pf-800/40 px-3 py-1.5 text-xs font-bold text-pf-200 border border-pf-600/20">
                   {myRole || 'Loading...'}
                 </span>
               </div>
@@ -162,14 +162,14 @@ export default function WorkspaceSettings() {
 
       <div className="hidden sm:block" aria-hidden="true">
         <div className="py-2">
-          <div className="border-t border-gray-200" />
+          <div className="border-t border-pf-800/30" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3">
         <div className="px-4 sm:px-0">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Members</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
+          <h2 className="text-base font-bold leading-7 text-pf-200">Members</h2>
+          <p className="mt-1 text-sm leading-6 text-pf-400">
             Manage who has access to this workspace and their roles.
           </p>
         </div>
@@ -183,24 +183,24 @@ export default function WorkspaceSettings() {
         <>
           <div className="hidden sm:block" aria-hidden="true">
             <div className="py-2">
-              <div className="border-t border-gray-200" />
+              <div className="border-t border-pf-800/30" />
             </div>
           </div>
           
           <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3 pb-12">
             <div className="px-4 sm:px-0">
-              <h2 className="text-base font-semibold leading-7 text-red-600">Danger Zone</h2>
-              <p className="mt-1 text-sm leading-6 text-gray-600">
+              <h2 className="text-base font-bold leading-7 text-red-400">Danger Zone</h2>
+              <p className="mt-1 text-sm leading-6 text-pf-400">
                 Irreversible actions for this workspace.
               </p>
             </div>
 
-            <div className="bg-red-50 shadow-sm ring-1 ring-red-200 sm:rounded-xl md:col-span-2">
-              <div className="px-4 py-6 sm:p-8">
+            <div className="bg-[rgba(239,68,68,0.03)] shadow-sm border border-[rgba(239,68,68,0.2)] sm:rounded-2xl md:col-span-2">
+              <div className="px-5 py-6 sm:p-8">
                 <div className="sm:flex sm:items-start sm:justify-between">
                   <div>
-                    <h3 className="text-sm font-medium text-red-800">Delete Workspace</h3>
-                    <p className="mt-1 text-sm text-red-600">
+                    <h3 className="text-sm font-bold text-[rgba(248,113,113,0.9)] uppercase tracking-widest">Delete Workspace</h3>
+                    <p className="mt-2 text-[13px] text-red-400/80 font-medium leading-relaxed">
                       Permanently delete this workspace and all of its data. This action is not reversible.
                     </p>
                   </div>
@@ -209,7 +209,7 @@ export default function WorkspaceSettings() {
                       type="button"
                       onClick={handleDeleteWorkspace}
                       disabled={isDeleting}
-                      className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:opacity-50"
+                      className="inline-flex items-center rounded-lg bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] px-4 py-2 text-sm font-bold text-[rgba(248,113,113,0.9)] hover:bg-[rgba(239,68,68,0.15)] hover:text-red-300 transition-colors disabled:opacity-50 tracking-wide"
                     >
                       {isDeleting ? 'Deleting...' : 'Delete workspace'}
                     </button>
