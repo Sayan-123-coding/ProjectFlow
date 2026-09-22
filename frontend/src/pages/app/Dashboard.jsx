@@ -84,18 +84,18 @@ export default function Dashboard() {
     return (
       <>
         <div className="mx-auto max-w-lg mt-20">
-          <div className="bg-white px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl sm:p-10 text-center">
-            <svg className="mx-auto h-12 w-12 text-indigo-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="surface-2 px-4 py-8 sm:rounded-2xl sm:p-10 text-center border-t-2 border-t-pf-400">
+            <svg className="mx-auto h-12 w-12 text-pf-400 mb-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            <h3 className="text-2xl font-bold leading-9 tracking-tight text-gray-900 mb-2">Welcome to ProjectFlow</h3>
-            <p className="text-sm leading-6 text-gray-500 mb-8 max-w-sm mx-auto">
+            <h3 className="text-2xl font-bold leading-9 tracking-tight text-pf-100 mb-2">Welcome to ProjectFlow</h3>
+            <p className="text-sm leading-6 text-pf-400 mb-8 max-w-sm mx-auto">
               You don't belong to any workspace yet. Create a workspace to start managing projects.
             </p>
             
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="inline-flex justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="btn-primary"
             >
               Create Your First Workspace
             </button>
@@ -136,118 +136,133 @@ export default function Dashboard() {
   const { summary, projects, recentActivity } = dashboardData;
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">
-          Welcome, {profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0]}
-        </h3>
-        <p className="mt-1 text-sm text-gray-500">
-          Overview for {currentWorkspace?.name}
-        </p>
+    <div className="space-y-8">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-pf-800/30 pb-5">
+        <div>
+          <h2 className="text-2xl font-semibold text-pf-100 tracking-tight">
+            Welcome back, {profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0]}
+          </h2>
+          <p className="mt-1.5 text-sm text-pf-400">
+            Here's what's happening in <span className="text-pf-200 font-medium">{currentWorkspace?.name}</span> today.
+          </p>
+        </div>
       </div>
 
-      {/* Metrics Cards */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="overflow-hidden rounded-lg bg-white shadow">
-          <div className="px-4 py-5 sm:p-6">
-            <dt className="truncate text-sm font-medium text-gray-500">Projects / Tasks</dt>
-            <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {summary.totalProjects} <span className="text-lg text-gray-400">/ {summary.totalTasks}</span>
-            </dd>
-          </div>
-        </div>
-        
-        <div className="overflow-hidden rounded-lg bg-white shadow">
-          <div className="px-4 py-5 sm:p-6">
-            <dt className="truncate text-sm font-medium text-gray-500">Completed / In Progress</dt>
-            <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {summary.completedTasks} <span className="text-lg text-gray-400">/ {summary.inProgressTasks}</span>
-            </dd>
-          </div>
-        </div>
+      {/* Primary Overview Area */}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        {/* Main Productivity Card spans 2 cols */}
+        <div className="surface-2 p-6 rounded-2xl flex flex-col justify-between lg:col-span-2 relative overflow-hidden">
 
-        <div className="overflow-hidden rounded-lg bg-white shadow">
-          <div className="px-4 py-5 sm:p-6">
-            <dt className="truncate text-sm font-medium text-gray-500">To Do / Overdue</dt>
-            <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {summary.todoTasks} <span className="text-lg text-red-400">/ {summary.overdueTasks}</span>
-            </dd>
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-lg bg-white shadow">
-          <div className="px-4 py-5 sm:p-6">
-            <dt className="truncate text-sm font-medium text-gray-500">Completion</dt>
-            <dd className="mt-1 flex items-baseline">
-              <span className="text-3xl font-semibold tracking-tight text-gray-900">{summary.completionPercentage}%</span>
-            </dd>
-            <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-              <div className="bg-indigo-600 h-2.5 rounded-full" style={{ width: `${summary.completionPercentage}%` }}></div>
+          <div>
+            <h3 className="text-sm font-semibold text-pf-400 uppercase tracking-wider mb-1">Overall Progress</h3>
+            <div className="flex items-end gap-3 mt-4">
+              <span className="text-5xl font-bold text-pf-100">{summary.completionPercentage}%</span>
+              <span className="text-sm text-pf-400 mb-1.5">completion across {summary.totalProjects} projects</span>
             </div>
+          </div>
+          <div className="mt-8">
+            <div className="flex items-center justify-between text-xs text-pf-400 mb-2 font-medium">
+              <span>{summary.completedTasks} Tasks Completed</span>
+              <span>{summary.totalTasks} Total Tasks</span>
+            </div>
+            <div className="w-full bg-pf-900/50 rounded-full h-2 overflow-hidden border border-pf-800/50">
+              <div 
+                className="bg-pf-400 h-full rounded-full transition-all duration-1000 ease-out" 
+                style={{ width: `${summary.completionPercentage}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Action Items */}
+        <div className="surface-1 p-6 rounded-2xl flex flex-col justify-between border-t-2 border-t-pf-400">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-pf-400 uppercase tracking-wider">Action Items</h3>
+              <div className="w-8 h-8 rounded-full bg-pf-800/30 flex items-center justify-center border border-pf-600/20">
+                <svg className="w-4 h-4 text-pf-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div className="mt-4">
+              <span className="text-4xl font-bold text-pf-100">{summary.inProgressTasks + summary.todoTasks}</span>
+              <p className="text-sm text-pf-400 mt-1">Pending tasks</p>
+            </div>
+          </div>
+          
+          <div className="mt-6 pt-4 border-t border-pf-800/30 flex justify-between items-center">
+            {summary.overdueTasks > 0 ? (
+              <span className="badge-red px-3 py-1.5">{summary.overdueTasks} Overdue</span>
+            ) : (
+              <span className="text-sm text-pf-400 flex items-center">
+                <svg className="w-4 h-4 mr-1 text-[rgba(74,222,128,0.9)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                All on track
+              </span>
+            )}
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Projects Summary */}
-        <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-base font-semibold leading-6 text-gray-900">Projects</h3>
+        <div className="surface-1 rounded-2xl flex flex-col overflow-hidden">
+          <div className="px-6 py-5 border-b border-pf-800/30 bg-pf-900/20 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-pf-100 uppercase tracking-wider">Active Projects</h3>
           </div>
-          <ul className="divide-y divide-gray-200">
-            {projects && projects.length > 0 ? (
-              projects.map(project => (
-                <li key={project.id} className="px-4 py-4 sm:px-6">
-                  <div className="flex items-center justify-between">
-                    <p className="truncate text-sm font-medium text-indigo-600">{project.name}</p>
-                    <div className="ml-2 flex flex-shrink-0">
-                      <p className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                        {project.completionPercentage}%
-                      </p>
+          <div className="flex-1 p-0">
+            <ul className="divide-y divide-pf-800/20">
+              {projects && projects.length > 0 ? (
+                projects.map(project => (
+                  <li key={project.id} className="px-6 py-5 hover:bg-pf-800/10 transition-colors group">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="truncate text-sm font-medium text-pf-200 group-hover:text-pf-100 transition-colors">{project.name}</p>
+                      <span className="badge-neutral">{project.completionPercentage}%</span>
                     </div>
-                  </div>
-                  <div className="mt-2 sm:flex sm:justify-between">
-                    <div className="sm:flex">
-                      <p className="flex items-center text-sm text-gray-500">
-                        {project.completedTasks} / {project.totalTasks} tasks completed
-                      </p>
+                    <div className="w-full bg-pf-900/30 rounded-full h-1.5 mb-2 overflow-hidden">
+                      <div className="bg-pf-600 h-full rounded-full" style={{ width: `${project.completionPercentage}%` }}></div>
                     </div>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <li className="px-4 py-5 text-sm text-gray-500">No projects in this workspace.</li>
-            )}
-          </ul>
+                    <p className="text-xs text-pf-400 font-medium">
+                      <span className="text-pf-200">{project.completedTasks}</span> of {project.totalTasks} tasks completed
+                    </p>
+                  </li>
+                ))
+              ) : (
+                <li className="px-6 py-10 text-sm text-pf-400 text-center">No projects in this workspace.</li>
+              )}
+            </ul>
+          </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-base font-semibold leading-6 text-gray-900">Recent Activity</h3>
+        <div className="surface-1 rounded-2xl flex flex-col overflow-hidden">
+          <div className="px-6 py-5 border-b border-pf-800/30 bg-pf-900/20 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-pf-100 uppercase tracking-wider">Recent Activity</h3>
           </div>
-          <ul className="divide-y divide-gray-200">
-            {recentActivity && recentActivity.length > 0 ? (
-              recentActivity.map(activity => (
-                <li key={activity.id} className="px-4 py-4 sm:px-6">
-                  <div className="flex space-x-3">
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm text-gray-500">
-                          {renderActivityText(activity)}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                          {new Date(activity.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                        </p>
-                      </div>
+          <div className="flex-1 p-0">
+            <ul className="divide-y divide-pf-800/20">
+              {recentActivity && recentActivity.length > 0 ? (
+                recentActivity.map(activity => (
+                  <li key={activity.id} className="px-6 py-4 hover:bg-pf-800/10 transition-colors flex gap-4">
+                    <div className="mt-1">
+                      <div className="w-2 h-2 rounded-full bg-pf-600"></div>
                     </div>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <li className="px-4 py-5 text-sm text-gray-500">No recent activity.</li>
-            )}
-          </ul>
+                    <div className="flex flex-col space-y-1.5">
+                      <p className="text-sm text-pf-200 leading-snug">
+                        {renderActivityText(activity)}
+                      </p>
+                      <p className="text-xs font-medium text-pf-400">
+                        {new Date(activity.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className="px-6 py-10 text-sm text-pf-400 text-center">No recent activity.</li>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

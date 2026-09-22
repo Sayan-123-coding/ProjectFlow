@@ -33,37 +33,42 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
+    <div className="flex min-h-screen items-center justify-center px-4 bg-pf-900">
+      <div className="w-full max-w-md space-y-8 surface-1 p-8 sm:p-10 rounded-2xl border border-pf-800/50 shadow-2xl">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Reset your password</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Enter your email address and we'll send you a link to reset your password.
+          <div className="mx-auto w-12 h-12 rounded-xl bg-pf-800/40 flex items-center justify-center mb-6 border border-pf-600/20 shadow-inner">
+            <svg className="w-7 h-7 text-pf-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-pf-100">Reset password</h2>
+          <p className="mt-3 text-[15px] font-medium text-pf-400">
+            Enter your email and we'll send a reset link.
           </p>
         </div>
         
         {error && (
-          <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
+          <div className="rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="rounded-md bg-green-50 p-4 text-sm text-green-700">
+          <div className="rounded-xl bg-[rgba(34,197,94,0.1)] p-4 text-sm font-semibold text-[rgba(74,222,128,0.9)] border border-[rgba(34,197,94,0.2)]">
             Check your email for a password reset link.
           </div>
         )}
 
         {!success && (
           <form className="mt-8 space-y-6" onSubmit={handleReset}>
-            <div className="space-y-4 rounded-md shadow-sm">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email address</label>
+                <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="email">Email address</label>
                 <input
                   id="email"
                   type="email"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="input-dark w-full"
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -71,11 +76,11 @@ export default function ForgotPassword() {
               </div>
             </div>
 
-            <div>
+            <div className="pt-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                className="btn-primary w-full flex justify-center py-3 text-[15px]"
               >
                 {loading ? 'Sending link...' : 'Send reset link'}
               </button>
@@ -83,12 +88,12 @@ export default function ForgotPassword() {
           </form>
         )}
         
-        <div className="text-center text-sm pt-4">
-          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500 flex items-center justify-center gap-1">
+        <div className="text-center text-[13px] pt-6 border-t border-pf-800/50 font-medium mt-6">
+          <Link to="/login" className="font-bold text-pf-400 hover:text-pf-200 transition-colors flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
-            Back to login
+            Back to log in
           </Link>
         </div>
       </div>

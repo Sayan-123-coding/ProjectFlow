@@ -16,11 +16,11 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 space-y-4">
+    <div className="glass-panel p-4 rounded-xl border border-white/5 mb-6 space-y-4 shadow-[0_0_15px_rgba(0,0,0,0.3)]">
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Search */}
         <div className="flex-1">
-          <label htmlFor="search" className="block text-xs font-medium text-gray-700 mb-1">Search</label>
+          <label htmlFor="search" className="block text-xs font-medium text-gray-400 mb-1">Search</label>
           <input
             type="text"
             id="search"
@@ -28,19 +28,19 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
             value={filters.search}
             onChange={handleChange}
             placeholder="Search tasks..."
-            className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5"
           />
         </div>
         
         {/* Status Filter */}
         <div className="w-full sm:w-40">
-          <label htmlFor="status" className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+          <label htmlFor="status" className="block text-xs font-medium text-gray-400 mb-1">Status</label>
           <select
             id="status"
             name="status"
             value={filters.status}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5 px-3"
           >
             <option value="">All</option>
             <option value="TODO">To Do</option>
@@ -51,13 +51,13 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
 
         {/* Priority Filter */}
         <div className="w-full sm:w-40">
-          <label htmlFor="priority" className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
+          <label htmlFor="priority" className="block text-xs font-medium text-gray-400 mb-1">Priority</label>
           <select
             id="priority"
             name="priority"
             value={filters.priority}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5 px-3"
           >
             <option value="">All</option>
             <option value="LOW">Low</option>
@@ -71,13 +71,13 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
       <div className="flex flex-col sm:flex-row gap-4 items-end">
         {/* Assignee Filter */}
         <div className="w-full sm:w-64">
-          <label htmlFor="assignee_id" className="block text-xs font-medium text-gray-700 mb-1">Assignee</label>
+          <label htmlFor="assignee_id" className="block text-xs font-medium text-gray-400 mb-1">Assignee</label>
           <select
             id="assignee_id"
             name="assignee_id"
             value={filters.assignee_id}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5 px-3"
           >
             <option value="">All</option>
             {projectMembers.map(m => (
@@ -88,13 +88,13 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
 
         {/* Sort By */}
         <div className="w-full sm:w-48">
-          <label htmlFor="sortBy" className="block text-xs font-medium text-gray-700 mb-1">Sort by</label>
+          <label htmlFor="sortBy" className="block text-xs font-medium text-gray-400 mb-1">Sort by</label>
           <select
             id="sortBy"
             name="sortBy"
             value={filters.sortBy}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5 px-3"
           >
             <option value="created_at">Created Date</option>
             <option value="updated_at">Updated Date</option>
@@ -107,13 +107,13 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
 
         {/* Sort Order */}
         <div className="w-full sm:w-32">
-          <label htmlFor="sortOrder" className="block text-xs font-medium text-gray-700 mb-1">Direction</label>
+          <label htmlFor="sortOrder" className="block text-xs font-medium text-gray-400 mb-1">Direction</label>
           <select
             id="sortOrder"
             name="sortOrder"
             value={filters.sortOrder}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 border"
+            className="input-dark w-full text-sm py-1.5 px-3"
           >
             <option value="desc">Descending</option>
             <option value="asc">Ascending</option>
@@ -125,7 +125,7 @@ export default function TaskFilters({ filters, onChange, projectMembers }) {
           <button
             type="button"
             onClick={handleClear}
-            className="w-full inline-flex justify-center py-1.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="btn-secondary w-full py-1.5 px-4 text-sm"
           >
             Clear Filters
           </button>

@@ -1,1 +1,107 @@
 @import "tailwindcss";
+
+@theme {
+  /* ProjectFlow Premium 6-Color Palette (Inverted for Light Mode) */
+  --color-pf-900: #DEDCDC; /* Lightest tone for backgrounds */
+  --color-pf-800: #C5BAC4; /* Colorful light surface */
+  --color-pf-600: #979DAB; /* Colorful mid surface */
+  --color-pf-400: #7E919F; /* Structural tone */
+  --color-pf-200: #57707A; /* Dark secondary text/elements */
+  --color-pf-100: #191D23; /* Darkest tone for primary text */
+}
+
+@layer base {
+  body {
+    /* Sophisticated layered background using the light colors */
+    @apply bg-pf-900 text-pf-100 antialiased selection:bg-pf-600/50 selection:text-pf-100;
+    
+    background-color: #DEDCDC;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(197, 186, 196, 0.6), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(151, 157, 171, 0.6), transparent 30%),
+      radial-gradient(circle at 50% 100%, rgba(197, 186, 196, 0.6), transparent 40%);
+    background-attachment: fixed;
+    background-size: cover;
+  }
+}
+
+@layer utilities {
+  /* Surface Levels (Now fully opaque and colorful) */
+  .surface-0 {
+    @apply bg-pf-900 border border-pf-600;
+  }
+  .surface-1 {
+    @apply bg-pf-800 border border-pf-600 shadow-md;
+    /* Light background (#C5BAC4), so text must be totally dark */
+    --color-pf-100: #191D23; /* Darkest */
+    --color-pf-200: #3f4e56; /* Darker than default */
+    --color-pf-400: #57707A; /* Dark secondary for subtitles */
+  }
+  .surface-2 {
+    @apply bg-pf-600 border border-pf-400 shadow-md;
+    /* Darker background (#979DAB), so text must be totally light */
+    --color-pf-100: #FFFFFF; /* Pure white for primary text/numbers */
+    --color-pf-200: #F3F4F6; /* Very light */
+    --color-pf-400: #E5E7EB; /* Light gray for subtitles */
+  }
+  
+  /* Retained for compatibility */
+  .glass-panel {
+    @apply bg-pf-800 border border-pf-600 shadow-md rounded-xl;
+    --color-pf-100: #191D23;
+    --color-pf-400: #57707A;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-pf-100 px-4 py-2 text-sm font-semibold text-pf-900 shadow-md hover:bg-pf-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-pf-400 focus:ring-offset-2 focus:ring-offset-pf-900 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg bg-pf-400 border border-pf-200 px-4 py-2 text-sm font-medium text-pf-100 hover:bg-pf-600 hover:border-pf-400 transition-all duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-pf-200 focus:ring-offset-2 focus:ring-offset-pf-900 active:scale-[0.98];
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-lg bg-red-100 border border-red-200 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-200 hover:text-red-800 transition-all duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-pf-900 active:scale-[0.98];
+  }
+  
+  /* Inputs */
+  .input-dark {
+    @apply block w-full rounded-lg border border-pf-400 bg-white/60 backdrop-blur-sm py-2.5 px-3.5 text-pf-100 placeholder-pf-400 shadow-sm focus:border-pf-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-pf-200 sm:text-sm transition-all duration-200;
+  }
+
+  /* Semantic Badges (Light mode optimized) */
+  .badge-neutral {
+    @apply inline-flex items-center rounded-md bg-pf-400/30 px-2 py-1 text-[11px] font-bold tracking-wide text-pf-100 border border-pf-400/50 uppercase;
+  }
+  .badge-blue {
+    @apply inline-flex items-center rounded-md bg-[rgba(59,130,246,0.15)] px-2 py-1 text-[11px] font-bold tracking-wide text-[rgba(29,78,216,0.9)] border border-[rgba(59,130,246,0.3)] uppercase;
+  }
+  .badge-green {
+    @apply inline-flex items-center rounded-md bg-[rgba(34,197,94,0.15)] px-2 py-1 text-[11px] font-bold tracking-wide text-[rgba(21,128,61,0.9)] border border-[rgba(34,197,94,0.3)] uppercase;
+  }
+  .badge-yellow {
+    @apply inline-flex items-center rounded-md bg-[rgba(234,179,8,0.15)] px-2 py-1 text-[11px] font-bold tracking-wide text-[rgba(161,98,7,0.9)] border border-[rgba(234,179,8,0.3)] uppercase;
+  }
+  .badge-orange {
+    @apply inline-flex items-center rounded-md bg-[rgba(249,115,22,0.15)] px-2 py-1 text-[11px] font-bold tracking-wide text-[rgba(194,65,12,0.9)] border border-[rgba(249,115,22,0.3)] uppercase;
+  }
+  .badge-red {
+    @apply inline-flex items-center rounded-md bg-[rgba(239,68,68,0.15)] px-2 py-1 text-[11px] font-bold tracking-wide text-[rgba(185,28,28,0.9)] border border-[rgba(239,68,68,0.3)] uppercase;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-pf-400 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-pf-200;
+}

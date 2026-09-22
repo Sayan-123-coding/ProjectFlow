@@ -44,57 +44,63 @@ export default function Register() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
+    <div className="flex min-h-screen items-center justify-center px-4 bg-pf-900">
+      <div className="w-full max-w-md space-y-8 surface-1 p-8 sm:p-10 rounded-2xl border border-pf-800/50 shadow-2xl">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Create an account</h2>
+          <div className="mx-auto w-12 h-12 rounded-xl bg-pf-800/40 flex items-center justify-center mb-6 border border-pf-600/20 shadow-inner">
+            <svg className="w-7 h-7 text-pf-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-pf-100">Create an account</h2>
+          <p className="mt-3 text-[15px] font-medium text-pf-400">Join ProjectFlow to start managing your projects</p>
         </div>
         
         {error && (
-          <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
+          <div className="rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
             {error}
           </div>
         )}
         
         {successMessage && (
-          <div className="rounded-md bg-green-50 p-4 text-sm text-green-700">
+          <div className="rounded-xl bg-[rgba(34,197,94,0.1)] p-4 text-sm font-semibold text-[rgba(74,222,128,0.9)] border border-[rgba(34,197,94,0.2)]">
             {successMessage}
           </div>
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
-          <div className="space-y-4 rounded-md shadow-sm">
+          <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="fullName">Full Name</label>
+              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="fullName">Full Name</label>
               <input
                 id="fullName"
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="input-dark w-full"
                 placeholder="John Doe"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email address</label>
+              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="email">Email address</label>
               <input
                 id="email"
                 type="email"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="input-dark w-full"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
+              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="password">Password</label>
               <input
                 id="password"
                 type="password"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="input-dark w-full"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -102,19 +108,19 @@ export default function Register() {
             </div>
           </div>
 
-          <div>
+          <div className="pt-4">
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+              className="btn-primary w-full flex justify-center py-3 text-[15px]"
             >
-              {loading ? 'Creating account...' : 'Sign up'}
+              {loading ? 'Creating account...' : 'Create account'}
             </button>
           </div>
           
-          <div className="text-center text-sm">
-            <span className="text-gray-600">Already have an account? </span>
-            <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <div className="text-center text-[13px] pt-6 border-t border-pf-800/50 font-medium">
+            <span className="text-pf-400">Already have an account? </span>
+            <Link to="/login" className="font-bold text-pf-200 hover:text-pf-100 transition-colors ml-1 uppercase tracking-wider">
               Sign in
             </Link>
           </div>
