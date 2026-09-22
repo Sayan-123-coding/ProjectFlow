@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useWorkspace } from '../../context/WorkspaceContext';
 import { useAuth } from '../../context/AuthContext';
 import { workspaceService } from '../../services/workspace.service';
@@ -7,8 +7,10 @@ import WorkspaceMembers from '../../components/workspaces/WorkspaceMembers';
 
 export default function WorkspaceSettings() {
   const { workspaceId } = useParams();
-  const { currentWorkspace, workspaces, loading: wsLoading } = useWorkspace();
+  const { currentWorkspace, workspaces, loading: wsLoading, refreshWorkspaces } = useWorkspace();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isDeleting, setIsDeleting] = useState(false);
   
   const [workspace, setWorkspace] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -57,6 +59,22 @@ export default function WorkspaceSettings() {
       isMounted = false;
     };
   }, [workspaceId, user?.id]);
+
+  const handleDeleteWorkspace = async () => {
+    if (!window.confirm("Are you sure you want to delete this workspace? All projects, tasks, and data will be permanently removed. This action cannot be undone.")) {
+      return;
+    }
+    
+    setIsDeleting(true);
+    try {
+      await workspaceService.deleteWorkspace(workspaceId);
+      await refreshWorkspaces();
+      navigate('/dashboard');
+    } catch (err) {
+      alert(err.message || 'Failed to delete workspace');
+      setIsDeleting(false);
+    }
+  };
 
   if (wsLoading || loading) {
     return (
@@ -160,6 +178,48 @@ export default function WorkspaceSettings() {
           <WorkspaceMembers workspaceId={workspaceId} />
         </div>
       </div>
+
+      {myRole === 'OWNER' && (
+        <>
+          <div className="hidden sm:block" aria-hidden="true">
+            <div className="py-2">
+              <div className="border-t border-gray-200" />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3 pb-12">
+            <div className="px-4 sm:px-0">
+              <h2 className="text-base font-semibold leading-7 text-red-600">Danger Zone</h2>
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Irreversible actions for this workspace.
+              </p>
+            </div>
+
+            <div className="bg-red-50 shadow-sm ring-1 ring-red-200 sm:rounded-xl md:col-span-2">
+              <div className="px-4 py-6 sm:p-8">
+                <div className="sm:flex sm:items-start sm:justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium text-red-800">Delete Workspace</h3>
+                    <p className="mt-1 text-sm text-red-600">
+                      Permanently delete this workspace and all of its data. This action is not reversible.
+                    </p>
+                  </div>
+                  <div className="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
+                    <button
+                      type="button"
+                      onClick={handleDeleteWorkspace}
+                      disabled={isDeleting}
+                      className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:opacity-50"
+                    >
+                      {isDeleting ? 'Deleting...' : 'Delete workspace'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

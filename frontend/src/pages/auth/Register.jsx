@@ -30,6 +30,9 @@ export default function Register() {
     if (error) {
       setError(error.message);
       setLoading(false);
+    } else if (data?.user?.identities?.length === 0) {
+      setError('Email address is already registered.');
+      setLoading(false);
     } else {
       if (!data.session) {
         setSuccessMessage('Registration successful. Please check your email to confirm your account before logging in.');

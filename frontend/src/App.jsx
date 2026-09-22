@@ -9,6 +9,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 // Pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 import Dashboard from './pages/app/Dashboard';
 import Landing from './pages/Landing';
 
@@ -29,7 +31,11 @@ export default function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Route>
+
+            {/* Standalone route for Reset Password to avoid redirect loops */}
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* Protected app routes */}
             <Route element={<ProtectedRoute />}>

@@ -50,13 +50,20 @@ const getWorkspaces = async (req, res) => {
   try {
     const { data, error } = await req.supabase
       .from('workspaces')
-      .select('*');
+      .select('*, workspace_members!inner(role)')
+      .eq('workspace_members.user_id', req.user.id);
+      
+    // Format out the nested workspace_members for clean frontend consumption
+    const formattedData = data ? data.map(ws => {
+      const { workspace_members, ...rest } = ws;
+      return rest;
+    }) : [];
       
     if (error) {
       return res.status(400).json({ error: error.message });
     }
 
-    return res.status(200).json({ workspaces: data });
+    return res.status(200).json({ workspaces: formattedData });
   } catch (err) {
     console.error('getWorkspaces error:', err);
     return res.status(500).json({ error: 'Internal server error' });
