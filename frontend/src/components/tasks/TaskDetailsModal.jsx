@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { projectService } from '../../services/project.service';
+import { renderActivityText, formatActivityTime } from '../../utils/activityFormatters';
 
 export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit, onDelete }) {
   const [activities, setActivities] = useState([]);
@@ -78,65 +79,7 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
     });
   };
 
-  const formatActivityTime = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: 'numeric', minute: '2-digit'
-    });
-  };
-
-  const renderActivityText = (activity) => {
-    const actor = getMemberName(activity.actor_id) || 'Unknown User';
-    const meta = activity.metadata || {};
-
-    switch (activity.action) {
-      case 'task_created':
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> created the task
-          </>
-        );
-      case 'task_updated':
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> updated the task details
-          </>
-        );
-      case 'task_status_changed':
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> changed status 
-            <div className="text-sm mt-1">
-              <span className="line-through text-gray-400">{meta.from}</span> → <span className="font-medium text-gray-700">{meta.to}</span>
-            </div>
-          </>
-        );
-      case 'task_priority_changed':
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> changed priority
-            <div className="text-sm mt-1">
-              <span className="line-through text-gray-400">{meta.from}</span> → <span className="font-medium text-gray-700">{meta.to}</span>
-            </div>
-          </>
-        );
-      case 'task_assigned':
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> assigned the task 
-            <div className="text-sm mt-1 text-gray-600">
-              to <span className="font-medium text-gray-900">{getMemberName(meta.new_assignee) || 'Unassigned'}</span>
-            </div>
-          </>
-        );
-      default:
-        return (
-          <>
-            <span className="font-medium text-gray-900">{actor}</span> performed action: {activity.action.replace(/_/g, ' ')}
-          </>
-        );
-    }
-  };
+  const isOverdue = task.status !== 'COMPLETED' && task.due_date && new Date(task.due_date) < new Date();
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
@@ -221,7 +164,7 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
                           <div className="h-1.5 w-1.5 rounded-full bg-gray-300 ring-1 ring-gray-300" />
                         </div>
                         <div className="flex-auto py-0.5 text-sm leading-5 text-gray-500">
-                          <div className="mb-1">{renderActivityText(activity)}</div>
+                          <div className="mb-1">{renderActivityText(activity, projectMembers)}</div>
                           <time className="text-xs text-gray-400">
                             {formatActivityTime(activity.created_at)}
                           </time>
@@ -264,7 +207,10 @@ export default function TaskDetailsModal({ task, projectMembers, onClose, onEdit
               </div>
 
               <div className="pt-4 border-t border-gray-100">
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Due Date</h4>
+                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                  Due Date
+                  {isOverdue && <span className="inline-flex items-center rounded-md bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-700 ring-1 ring-inset ring-red-600/10">⚠ OVERDUE</span>}
+                </h4>
                 <div className="text-sm text-gray-900">
                   {formatDate(task.due_date)}
                 </div>

@@ -15,6 +15,17 @@ export default function ProjectCard({ project }) {
             {project.description}
           </p>
         )}
+        {project.totalTasks !== undefined && (
+          <div className="mt-4">
+            <div className="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Progress</span>
+              <span>{project.completedTasks} / {project.totalTasks} ({project.completionPercentage}%)</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
+              <div className="bg-indigo-600 h-1.5 rounded-full transition-all" style={{ width: `${project.completionPercentage}%` }}></div>
+            </div>
+          </div>
+        )}
       </div>
       <div className="border-t border-gray-100 bg-gray-50 px-5 py-3 rounded-b-lg">
         <div className="flex items-center justify-between text-xs text-gray-500">

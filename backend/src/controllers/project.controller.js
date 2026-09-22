@@ -67,14 +67,37 @@ const getProjects = async (req, res) => {
 
     const { data, error } = await req.supabase
       .from('projects')
-      .select('*')
+      .select(`
+        *,
+        tasks (
+          id,
+          status
+        )
+      `)
       .eq('workspace_id', workspaceId);
 
     if (error) {
       return res.status(400).json({ error: error.message });
     }
 
-    return res.status(200).json({ projects: data });
+    const projectsWithProgress = data.map(project => {
+      const tasks = project.tasks || [];
+      const totalTasks = tasks.length;
+      const completedTasks = tasks.filter(t => t.status === 'COMPLETED').length;
+      const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      
+      // Remove tasks array from response to keep payload small
+      delete project.tasks;
+      
+      return {
+        ...project,
+        totalTasks,
+        completedTasks,
+        completionPercentage
+      };
+    });
+
+    return res.status(200).json({ projects: projectsWithProgress });
   } catch (err) {
     console.error('getProjects error:', err);
     return res.status(500).json({ error: 'Internal server error' });

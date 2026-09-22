@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useWorkspace } from '../../context/WorkspaceContext';
 import { dashboardService } from '../../services/dashboard.service';
+import { renderActivityText } from '../../utils/activityFormatters';
 import CreateWorkspaceModal from '../../components/workspaces/CreateWorkspaceModal';
 
 export default function Dashboard() {
@@ -232,14 +233,13 @@ export default function Dashboard() {
                   <div className="flex space-x-3">
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-medium">{activity.actor_name || 'Someone'}</h3>
                         <p className="text-sm text-gray-500">
+                          {renderActivityText(activity)}
+                        </p>
+                        <p className="text-xs text-gray-400">
                           {new Date(activity.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
-                      <p className="text-sm text-gray-500">
-                        {activity.action} {activity.metadata?.details ? `- ${activity.metadata.details}` : ''}
-                      </p>
                     </div>
                   </div>
                 </li>
