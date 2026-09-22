@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { projectMemberService } from '../../services/projectMember.service';
 import { api } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
-export default function ProjectMembers({ projectId, currentWorkspace }) {
+export default function ProjectMembers({ projectId, currentWorkspace, onPermissionsLoad }) {
+  const { user } = useAuth();
   const [members, setMembers] = useState([]);
   const [workspaceMembers, setWorkspaceMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [canManageProject, setCanManageProject] = useState(false);
 
   // Add Member State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -29,8 +32,19 @@ export default function ProjectMembers({ projectId, currentWorkspace }) {
           projectMemberService.getProjectMembers(projectId),
           api.get(`/workspaces/${currentWorkspace.id}/members`)
         ]);
-        setMembers(membersRes.members || []);
-        setWorkspaceMembers(wsMembersRes.members || []);
+        const fetchedMembers = membersRes.members || [];
+        const fetchedWsMembers = wsMembersRes.members || [];
+        setMembers(fetchedMembers);
+        setWorkspaceMembers(fetchedWsMembers);
+
+        const isWorkspaceOwner = fetchedWsMembers.some(m => m.userId === user?.id && (m.role === 'OWNER' || m.role === 'MANAGER'));
+        const currentUserProjectRole = fetchedMembers.find(m => m.userId === user?.id)?.role;
+        const canManage = isWorkspaceOwner || currentUserProjectRole === 'MANAGER';
+        setCanManageProject(canManage);
+        
+        if (onPermissionsLoad) {
+          onPermissionsLoad(canManage);
+        }
       } catch (err) {
         if (err.status === 403) {
           setError("You don't have permission to manage members in this project.");
@@ -133,13 +147,15 @@ export default function ProjectMembers({ projectId, currentWorkspace }) {
     <div className="space-y-6">
       <div className="flex items-center justify-between border-b border-gray-200 pb-5">
         <h3 className="text-base font-semibold leading-6 text-gray-900">Project Members</h3>
-        <button
-          onClick={() => setShowAddModal(true)}
-          type="button"
-          className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          + Add Member
-        </button>
+        {canManageProject && (
+          <button
+            onClick={() => setShowAddModal(true)}
+            type="button"
+            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            + Add Member
+          </button>
+        )}
       </div>
 
       {actionError && (
@@ -184,22 +200,30 @@ export default function ProjectMembers({ projectId, currentWorkspace }) {
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <select
-                      value={member.role}
-                      onChange={(e) => handleUpdateRole(member.id, e.target.value)}
-                      className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                    >
-                      <option value="MANAGER">Manager</option>
-                      <option value="MEMBER">Member</option>
-                    </select>
+                    {canManageProject ? (
+                      <select
+                        value={member.role}
+                        onChange={(e) => handleUpdateRole(member.id, e.target.value)}
+                        className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                      >
+                        <option value="MANAGER">Manager</option>
+                        <option value="MEMBER">Member</option>
+                      </select>
+                    ) : (
+                      <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                        {member.role.charAt(0) + member.role.slice(1).toLowerCase()}
+                      </span>
+                    )}
                   </td>
                   <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <button
-                      onClick={() => handleRemoveMember(member.id, member.fullName)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      Remove
-                    </button>
+                    {canManageProject && (
+                      <button
+                        onClick={() => handleRemoveMember(member.id, member.fullName)}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        Remove
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -130,11 +130,7 @@ const updateMemberRole = async (req, res) => {
 
     const authCheck = await checkProjectAdminAccess(req, projectId);
     if (!authCheck || !authCheck.hasAccess) {
-      return res.status(403).json({ error: 'Not permitted to access project' });
-    }
-
-    if (authCheck.wsRole === null) { 
-      return res.status(403).json({ error: 'Project MANAGERs cannot change member roles' });
+      return res.status(403).json({ error: 'You do not have permission to modify roles in this project.' });
     }
 
     const { data, error } = await req.supabase
@@ -165,6 +161,11 @@ const removeMember = async (req, res) => {
     const { projectId, memberId } = req.params;
 
     if (!isValidUUID(projectId) || !isValidUUID(memberId)) return res.status(400).json({ error: 'Invalid IDs' });
+
+    const authCheck = await checkProjectAdminAccess(req, projectId);
+    if (!authCheck || !authCheck.hasAccess) {
+      return res.status(403).json({ error: 'You do not have permission to remove members from this project.' });
+    }
 
     const { data: targetMember, error: memberError } = await req.supabase
        .from('project_members')
