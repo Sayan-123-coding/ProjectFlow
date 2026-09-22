@@ -8,6 +8,7 @@ const { workspaceProjectRouter, projectRouter } = require('./routes/project.rout
 const { projectTaskRouter, taskRouter } = require('./routes/task.routes');
 const activityRoutes = require('./routes/activity.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
+const notificationRoutes = require('./routes/notification.routes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api/projects/:projectId/tasks', projectTaskRouter);
 app.use('/api/projects/:projectId/activities', activityRoutes);
 app.use('/api/projects', projectRouter);
 app.use('/api/tasks', taskRouter);
+app.use('/api/notifications', notificationRoutes);
 
 // Health / Root endpoint
 app.get('/', (req, res) => {

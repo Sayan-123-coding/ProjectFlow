@@ -36,9 +36,11 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
     }
   };
 
+  const isOverdue = task.status !== 'COMPLETED' && task.due_date && new Date(task.due_date) < new Date();
+
   return (
     <div 
-      className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 hover:shadow-md transition-shadow relative cursor-pointer"
+      className={`bg-white rounded-lg border ${isOverdue ? 'border-red-300' : 'border-gray-200'} shadow-sm p-4 hover:shadow-md transition-shadow relative cursor-pointer`}
       onClick={() => onClick && onClick(task)}
     >
       <div className="flex justify-between items-start mb-2">
@@ -82,7 +84,9 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
           <div>
             <span className="block mb-1">Assignee: <span className="font-medium text-gray-700">{getAssigneeName()}</span></span>
             {task.due_date && (
-              <span className="block">Due: <span className="font-medium text-gray-700">{new Date(task.due_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span></span>
+              <span className="block flex items-center gap-1.5 mt-0.5">Due: <span className="font-medium text-gray-700">{new Date(task.due_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                {isOverdue && <span className="inline-flex items-center rounded-md bg-red-50 px-1.5 py-0.5 text-[10px] font-medium text-red-700 ring-1 ring-inset ring-red-600/10">⚠ OVERDUE</span>}
+              </span>
             )}
           </div>
           <div>

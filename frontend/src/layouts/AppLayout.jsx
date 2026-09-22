@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useWorkspace } from '../context/WorkspaceContext';
 import CreateWorkspaceModal from '../components/workspaces/CreateWorkspaceModal';
+import NotificationBell from '../components/notifications/NotificationBell';
 
 export default function AppLayout() {
   const { signOut, user, profile } = useAuth();
@@ -93,6 +94,7 @@ export default function AppLayout() {
                 {user?.email && profile?.full_name && <span className="text-xs">{user.email}</span>}
               </div>
               <div className="flex items-center space-x-2">
+                <NotificationBell />
                 <Link
                   to="/profile"
                   className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
