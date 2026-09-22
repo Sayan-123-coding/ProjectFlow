@@ -13,6 +13,7 @@ export default function ProjectDetails() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [canManageProject, setCanManageProject] = useState(false);
   
   // Edit State
   const [isEditing, setIsEditing] = useState(false);
@@ -194,28 +195,30 @@ export default function ProjectDetails() {
                 </p>
               )}
             </div>
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setIsEditing(true)}
-                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              >
-                Edit
-              </button>
-              <button
-                onClick={handleDelete}
-                disabled={deleteLoading}
-                className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:bg-red-400"
-              >
-                {deleteLoading ? 'Deleting...' : 'Delete'}
-              </button>
-            </div>
+            {canManageProject && (
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={deleteLoading}
+                  className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:bg-red-400"
+                >
+                  {deleteLoading ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
 
       <div className="overflow-hidden bg-white shadow sm:rounded-lg">
         <div className="p-6">
-          <ProjectMembers projectId={projectId} currentWorkspace={currentWorkspace} />
+          <ProjectMembers projectId={projectId} currentWorkspace={currentWorkspace} onPermissionsLoad={setCanManageProject} />
         </div>
       </div>
 
