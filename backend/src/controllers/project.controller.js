@@ -65,6 +65,18 @@ const getProjects = async (req, res) => {
     const { workspaceId } = req.params;
     if (!isValidUUID(workspaceId)) return res.status(400).json({ error: 'Invalid workspace ID' });
 
+    // Verify workspace access
+    const { data: wsMember, error: wsMemberError } = await req.supabase
+      .from('workspace_members')
+      .select('role')
+      .eq('workspace_id', workspaceId)
+      .eq('user_id', req.user.id)
+      .single();
+
+    if (wsMemberError || !wsMember) {
+      return res.status(403).json({ error: 'Not permitted to access projects in this workspace' });
+    }
+
     const { data, error } = await req.supabase
       .from('projects')
       .select(`

@@ -27,5 +27,9 @@ export const workspaceService = {
 
   removeWorkspaceMember: async (workspaceId, memberId) => {
     return api.delete(`/workspaces/${workspaceId}/members/${memberId}`);
+  },
+
+  deleteWorkspace: async (workspaceId) => {
+    return api.delete(`/workspaces/${workspaceId}`);
   }
 };

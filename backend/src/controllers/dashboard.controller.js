@@ -17,8 +17,22 @@ const getWorkspaceDashboard = async (req, res) => {
       return res.status(403).json({ error: 'Not permitted to access this workspace' });
     }
 
-    // 2. Fetch Projects and their Tasks in a single nested query
-    const { data: projectsData, error: projectsError } = await req.supabase
+    const isWsAdmin = wsMember.role === 'OWNER' || wsMember.role === 'MANAGER';
+
+    // 2. Fetch user's project roles if they are just a workspace member
+    let prjRoleMap = {};
+    if (!isWsAdmin) {
+      const { data: prjMembers } = await req.supabase
+        .from('project_members')
+        .select('project_id, role')
+        .eq('user_id', req.user.id);
+      if (prjMembers) {
+        prjMembers.forEach(pm => { prjRoleMap[pm.project_id] = pm.role; });
+      }
+    }
+
+    // 3. Fetch Projects and their Tasks in a single nested query
+    const { data: allProjectsData, error: projectsError } = await req.supabase
       .from('projects')
       .select(`
         id,
@@ -26,7 +40,8 @@ const getWorkspaceDashboard = async (req, res) => {
         tasks (
           id,
           status,
-          due_date
+          due_date,
+          assignee_id
         )
       `)
       .eq('workspace_id', workspaceId);
@@ -35,7 +50,33 @@ const getWorkspaceDashboard = async (req, res) => {
       return res.status(400).json({ error: projectsError.message });
     }
 
-    // 3. Process aggregates in memory
+    // Filter projects based on roles
+    let projectsData = [];
+    let visibleTaskIds = new Set();
+    
+    if (isWsAdmin) {
+      projectsData = allProjectsData;
+      projectsData?.forEach(p => {
+        p.tasks?.forEach(t => visibleTaskIds.add(t.id));
+      });
+    } else {
+      projectsData = (allProjectsData || []).filter(p => prjRoleMap[p.id]);
+      
+      // Filter tasks within those projects
+      projectsData = projectsData.map(p => {
+        const role = prjRoleMap[p.id];
+        if (role === 'MEMBER') {
+           const userTasks = p.tasks.filter(t => t.assignee_id === req.user.id);
+           userTasks.forEach(t => visibleTaskIds.add(t.id));
+           return { ...p, tasks: userTasks };
+        } else {
+           p.tasks?.forEach(t => visibleTaskIds.add(t.id));
+           return p;
+        }
+      });
+    }
+
+    // 4. Process aggregates in memory
     let totalProjects = projectsData ? projectsData.length : 0;
     let globalTotalTasks = 0;
     let globalCompletedTasks = 0;
@@ -88,31 +129,37 @@ const getWorkspaceDashboard = async (req, res) => {
       globalCompletionPercentage = parseFloat(((globalCompletedTasks / globalTotalTasks) * 100).toFixed(1));
     }
 
-    // 4. Fetch Recent Activity
-    const { data: activities, error: activitiesError } = await req.supabase
-      .from('activities')
-      .select(`
-        id,
-        actor_id,
-        project_id,
-        task_id,
-        action,
-        metadata,
-        created_at,
-        profiles (
-          full_name,
-          avatar_url
-        )
-      `)
-      .eq('workspace_id', workspaceId)
-      .order('created_at', { ascending: false })
-      .limit(10);
+    // 5. Fetch Recent Activity
+    let activities = [];
+    const projectIds = (projectsData || []).map(p => p.id);
+    
+    if (projectIds.length > 0) {
+      const { data: acts, error: activitiesError } = await req.supabase
+        .from('activities')
+        .select(`
+          id,
+          actor_id,
+          project_id,
+          task_id,
+          action,
+          metadata,
+          created_at,
+          profiles (
+            full_name,
+            avatar_url
+          )
+        `)
+        .in('project_id', projectIds)
+        .order('created_at', { ascending: false })
+        .limit(30); // Fetch more to safely filter in memory
 
-    if (activitiesError) {
-      return res.status(400).json({ error: activitiesError.message });
+      if (activitiesError) {
+        return res.status(400).json({ error: activitiesError.message });
+      }
+      activities = acts;
     }
 
-    const recentActivity = (activities || []).map(act => ({
+    let recentActivity = (activities || []).map(act => ({
       id: act.id,
       actor_id: act.actor_id,
       actor_name: act.profiles ? act.profiles.full_name : null,
@@ -123,6 +170,19 @@ const getWorkspaceDashboard = async (req, res) => {
       metadata: act.metadata,
       created_at: act.created_at
     }));
+
+    if (!isWsAdmin) {
+      recentActivity = recentActivity.filter(act => {
+        const role = prjRoleMap[act.project_id];
+        if (role === 'MANAGER') return true;
+        if (role === 'MEMBER') {
+          return act.task_id === null || visibleTaskIds.has(act.task_id);
+        }
+        return false;
+      });
+    }
+
+    recentActivity = recentActivity.slice(0, 10);
 
     // Build the final response
     return res.status(200).json({
