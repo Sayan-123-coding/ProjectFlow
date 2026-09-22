@@ -36,7 +36,7 @@ const getWorkspaceDashboard = async (req, res) => {
     }
 
     // 3. Process aggregates in memory
-    let totalProjects = projectsData.length;
+    let totalProjects = projectsData ? projectsData.length : 0;
     let globalTotalTasks = 0;
     let globalCompletedTasks = 0;
     let globalInProgressTasks = 0;
@@ -45,7 +45,7 @@ const getWorkspaceDashboard = async (req, res) => {
 
     const now = new Date();
 
-    const projectsList = projectsData.map(project => {
+    const projectsList = (projectsData || []).map(project => {
       const tasks = project.tasks || [];
       const totalTasks = tasks.length;
       let completedTasks = 0;
@@ -112,7 +112,7 @@ const getWorkspaceDashboard = async (req, res) => {
       return res.status(400).json({ error: activitiesError.message });
     }
 
-    const recentActivity = activities.map(act => ({
+    const recentActivity = (activities || []).map(act => ({
       id: act.id,
       actor_id: act.actor_id,
       actor_name: act.profiles ? act.profiles.full_name : null,

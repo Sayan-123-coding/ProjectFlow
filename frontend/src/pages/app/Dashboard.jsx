@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useWorkspace } from '../../context/WorkspaceContext';
 import { dashboardService } from '../../services/dashboard.service';
+import CreateWorkspaceModal from '../../components/workspaces/CreateWorkspaceModal';
 
 export default function Dashboard() {
   const { user, profile } = useAuth();
@@ -59,6 +60,8 @@ export default function Dashboard() {
     setIsCreating(false);
   };
 
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   if (wsLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -78,67 +81,50 @@ export default function Dashboard() {
   // No workspaces: Show creation form
   if (!currentWorkspace && workspaces.length === 0) {
     return (
-      <div className="mx-auto max-w-lg mt-10">
-        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 text-center">
-          <h3 className="text-xl font-medium leading-6 text-gray-900 mb-2">No workspaces yet</h3>
-          <p className="text-sm text-gray-500 mb-6">Create your first workspace to get started.</p>
-          
-          {createError && (
-            <div className="rounded-md bg-red-50 p-4 mb-4 text-sm text-red-700 text-left">
-              {createError}
-            </div>
-          )}
-          
-          <form onSubmit={handleCreateWorkspace} className="space-y-4 text-left">
-            <div>
-              <label htmlFor="wsName" className="block text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                id="wsName"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border py-2 px-3"
-                value={newWsName}
-                onChange={(e) => setNewWsName(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="wsDesc" className="block text-sm font-medium text-gray-700">Description</label>
-              <textarea
-                id="wsDesc"
-                rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border py-2 px-3"
-                value={newWsDesc}
-                onChange={(e) => setNewWsDesc(e.target.value)}
-              />
-            </div>
+      <>
+        <div className="mx-auto max-w-lg mt-20">
+          <div className="bg-white px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl sm:p-10 text-center">
+            <svg className="mx-auto h-12 w-12 text-indigo-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <h3 className="text-2xl font-bold leading-9 tracking-tight text-gray-900 mb-2">Welcome to ProjectFlow</h3>
+            <p className="text-sm leading-6 text-gray-500 mb-8 max-w-sm mx-auto">
+              You don't belong to any workspace yet. Create a workspace to start managing projects.
+            </p>
+            
             <button
-              type="submit"
-              disabled={isCreating || !newWsName.trim()}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+              onClick={() => setIsCreateModalOpen(true)}
+              className="inline-flex justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              {isCreating ? 'Creating...' : 'Create Workspace'}
+              Create Your First Workspace
             </button>
-          </form>
+          </div>
         </div>
+        
+        <CreateWorkspaceModal 
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      </>
+    );
+  }
+
+  // Have workspace — check error state first
+  if (dashboardError) {
+    return (
+      <div className="mt-8 text-center">
+        <p className="text-red-600 mb-4">{dashboardError}</p>
+        <button 
+          onClick={fetchDashboard}
+          className="rounded bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-600 hover:bg-indigo-100"
+        >
+          Try again
+        </button>
       </div>
     );
   }
 
-  // Have workspace, wait for dashboard loading
   if (dashboardLoading || !dashboardData) {
-    if (dashboardError) {
-      return (
-        <div className="mt-8 text-center">
-          <p className="text-red-600 mb-4">{dashboardError}</p>
-          <button 
-            onClick={fetchDashboard}
-            className="rounded bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-600 hover:bg-indigo-100"
-          >
-            Try again
-          </button>
-        </div>
-      );
-    }
     return (
       <div className="flex h-64 items-center justify-center">
         <p className="text-gray-500">Loading dashboard...</p>
@@ -248,7 +234,7 @@ export default function Dashboard() {
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-medium">{activity.actor_name || 'Someone'}</h3>
                         <p className="text-sm text-gray-500">
-                          {new Date(activity.created_at).toLocaleDateString()}
+                          {new Date(activity.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                       <p className="text-sm text-gray-500">

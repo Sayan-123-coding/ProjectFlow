@@ -5,7 +5,7 @@ import { workspaceService } from '../services/workspace.service';
 const WorkspaceContext = createContext({});
 
 export const WorkspaceProvider = ({ children }) => {
-  const { session } = useAuth();
+  const { session, loading: authLoading } = useAuth();
   const [workspaces, setWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -42,6 +42,8 @@ export const WorkspaceProvider = ({ children }) => {
   }, [session]);
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (session) {
       fetchWorkspaces();
     } else {
@@ -49,7 +51,7 @@ export const WorkspaceProvider = ({ children }) => {
       setCurrentWorkspace(null);
       setLoading(false);
     }
-  }, [session, fetchWorkspaces]);
+  }, [session, authLoading, fetchWorkspaces]);
 
   const selectWorkspace = (workspaceId) => {
     const found = workspaces.find(ws => ws.id === workspaceId);

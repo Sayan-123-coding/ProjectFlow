@@ -68,13 +68,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateLocalProfile = (newProfile) => {
+    setProfile(newProfile);
+  };
+
   const value = {
     session,
     user,
     profile,
     loading,
     signOut,
-    refreshProfile
+    refreshProfile,
+    updateLocalProfile
   };
 
   return (

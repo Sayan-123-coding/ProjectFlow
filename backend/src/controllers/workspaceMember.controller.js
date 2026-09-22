@@ -37,17 +37,22 @@ const getMembers = async (req, res) => {
 const addMember = async (req, res) => {
   try {
     const { workspaceId } = req.params;
-    const { userId, role } = req.body;
+    const { email, role } = req.body;
 
-    if (!userId || !role) {
-      return res.status(400).json({ error: 'userId and role are required' });
+    if (!email || !role) {
+      return res.status(400).json({ error: 'email and role are required' });
     }
-    if (role === 'OWNER') {
+    
+    const roleUpper = role.toUpperCase();
+    if (roleUpper === 'OWNER') {
       return res.status(400).json({ error: 'Cannot assign OWNER role' });
     }
-    if (role !== 'MANAGER' && role !== 'MEMBER') {
+    if (roleUpper !== 'MANAGER' && roleUpper !== 'MEMBER' && roleUpper !== 'ADMIN') {
+      // The frontend dropdown has 'member' or 'admin', mapping 'admin' to 'MANAGER'
       return res.status(400).json({ error: 'Invalid role' });
     }
+    
+    const mappedRole = roleUpper === 'ADMIN' ? 'MANAGER' : roleUpper;
 
     const { data: myMember, error: myMemberError } = await req.supabase
       .from('workspace_members')
@@ -64,22 +69,25 @@ const addMember = async (req, res) => {
       return res.status(403).json({ error: 'Not permitted to add members' });
     }
 
+    // Try looking up by email in profiles
     const { data: profile, error: profileError } = await req.supabase
       .from('profiles')
       .select('id')
-      .eq('id', userId)
+      .eq('email', email)
       .single();
 
     if (profileError || !profile) {
-      return res.status(404).json({ error: 'User profile not found' });
+      return res.status(404).json({ error: 'User with this email is not registered.' });
     }
+
+    const userId = profile.id;
 
     const { data, error } = await req.supabase
       .from('workspace_members')
       .insert({
         workspace_id: workspaceId,
         user_id: userId,
-        role: role,
+        role: mappedRole,
         created_at: new Date().toISOString()
       })
       .select()
