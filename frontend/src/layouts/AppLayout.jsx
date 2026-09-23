@@ -9,12 +9,23 @@ export default function AppLayout() {
   const { signOut, user, profile } = useAuth();
   const { workspaces, currentWorkspace, selectWorkspace, loading: wsLoading, error: wsError } = useWorkspace();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <div className="min-h-screen flex text-pf-200 relative overflow-hidden">
+      
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          onClick={closeSidebar}
+        />
+      )}
 
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 flex flex-col border-r border-white/10 bg-[#0b0c10]/85 backdrop-blur-3xl shadow-[4px_0_24px_rgba(0,0,0,0.1)] h-screen sticky top-0 z-50">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-white/10 bg-[#0b0c10]/95 backdrop-blur-3xl shadow-[4px_0_24px_rgba(0,0,0,0.1)] h-screen transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
         {/* Branding & Workspace Selector */}
         <div className="p-5 border-b border-white/10 relative overflow-hidden">
@@ -94,6 +105,7 @@ export default function AppLayout() {
           <label className="px-3 text-[11px] font-bold text-pf-200 uppercase tracking-widest mb-2 block">Menu</label>
           <NavLink
             to="/dashboard"
+            onClick={closeSidebar}
             className={({ isActive }) =>
               `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 isActive 
@@ -109,6 +121,7 @@ export default function AppLayout() {
           </NavLink>
           <NavLink
             to="/projects"
+            onClick={closeSidebar}
             className={({ isActive }) =>
               `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 isActive 
@@ -158,7 +171,28 @@ export default function AppLayout() {
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
-        <div className="flex-1 overflow-y-auto px-6 py-8 md:px-10">
+        
+        {/* Mobile Header */}
+        <div className="md:hidden flex items-center justify-between p-4 border-b border-black/5 bg-white/10 backdrop-blur-md sticky top-0 z-30">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 rounded-lg bg-[#0b0c10] flex items-center justify-center shadow-sm">
+              <svg className="w-4 h-4 text-pf-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <span className="text-lg font-extrabold text-slate-800 tracking-wide">ProjectFlow</span>
+          </div>
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 -mr-2 rounded-lg text-slate-600 hover:bg-black/5 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-4 py-6 md:px-10 md:py-8">
           <div className="mx-auto max-w-6xl">
             <Outlet />
           </div>

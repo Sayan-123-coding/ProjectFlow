@@ -1,4 +1,4 @@
-export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onClick }) {
+export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onClick, onStatusChange }) {
   const getStatusColor = (status) => {
     switch (status) {
       case 'TODO': return 'badge-neutral';
@@ -99,6 +99,26 @@ export default function TaskCard({ task, projectMembers, onUpdate, onDelete, onC
           {task.id.slice(0, 5)}
         </div>
       </div>
+      {/* Mobile Status Changer */}
+      {onStatusChange && (
+        <div className="mt-4 sm:hidden border-t border-white/5 pt-3">
+          <label className="text-[10px] font-bold text-pf-400 uppercase tracking-widest block mb-1">Move to</label>
+          <select
+            value={task.status}
+            onChange={(e) => {
+              if (e.target.value !== task.status) {
+                onStatusChange(task.id, e.target.value, task.status);
+              }
+            }}
+            onClick={(e) => e.stopPropagation()}
+            className="input-dark w-full text-xs font-bold py-1.5 px-2 bg-black/40 border border-white/10"
+          >
+            <option value="TODO" className="bg-black text-white">TODO</option>
+            <option value="IN_PROGRESS" className="bg-black text-white">IN PROGRESS</option>
+            <option value="COMPLETED" className="bg-black text-white">COMPLETED</option>
+          </select>
+        </div>
+      )}
     </div>
   );
 }

@@ -57,7 +57,7 @@ export default function Landing() {
               <p className="mt-6 text-[18px] leading-relaxed text-slate-600 mb-10 max-w-2xl mx-auto font-medium">
                 ProjectFlow is the minimal, high-performance project management workspace designed for modern engineering teams to collaborate without the clutter.
               </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
                 <Link
                   to="/register"
                   className="btn-primary px-8 py-3.5 text-base"
