@@ -131,17 +131,18 @@ export default function TaskList({ projectId }) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h3 className="text-xl font-bold leading-6 text-white tracking-wide">Tasks</h3>
+    <div className="space-y-6 relative z-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 relative">
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-pf-600/50 via-white/10 to-transparent"></div>
+        <h3 className="text-xl font-extrabold leading-6 text-white tracking-wide drop-shadow-sm uppercase">Tasks</h3>
         
         <div className="flex items-center space-x-4">
-          <div className="inline-flex rounded-lg shadow-sm border border-white/10 p-1 bg-zinc-900/50" role="group">
+          <div className="inline-flex rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.5)] border border-white/10 p-1 bg-black/40 backdrop-blur-md" role="group">
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                viewMode === 'list' ? 'bg-zinc-800 text-orange-500 shadow-sm' : 'text-gray-400 hover:text-white'
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all ${
+                viewMode === 'list' ? 'bg-pf-600/20 text-pf-200 border border-pf-400/30 shadow-[0_0_10px_rgba(151,125,255,0.2)]' : 'text-pf-400 hover:text-white hover:bg-white/5'
               }`}
             >
               List
@@ -149,8 +150,8 @@ export default function TaskList({ projectId }) {
             <button
               type="button"
               onClick={() => setViewMode('board')}
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                viewMode === 'board' ? 'bg-zinc-800 text-orange-500 shadow-sm' : 'text-gray-400 hover:text-white'
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all ${
+                viewMode === 'board' ? 'bg-pf-600/20 text-pf-200 border border-pf-400/30 shadow-[0_0_10px_rgba(151,125,255,0.2)]' : 'text-pf-400 hover:text-white hover:bg-white/5'
               }`}
             >
               Board
@@ -174,16 +175,17 @@ export default function TaskList({ projectId }) {
       />
 
       {error && (
-        <div className="rounded-xl bg-red-900/20 border border-red-900/30 p-4">
-          <p className="text-sm text-red-400">{error}</p>
+        <div className="rounded-xl bg-red-950/40 p-4 border border-red-500/30 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+          <p className="text-sm font-bold text-red-400 drop-shadow-sm">{error}</p>
         </div>
       )}
 
       {loading && tasks.length === 0 ? (
-        <div className="p-12 text-center text-gray-400">Loading tasks...</div>
+        <div className="p-12 text-center text-pf-400 font-bold tracking-widest uppercase text-sm drop-shadow-sm">Loading tasks...</div>
       ) : !loading && tasks.length === 0 ? (
-        <div className="text-center rounded-2xl border-2 border-dashed border-white/10 bg-zinc-900/30 p-12 backdrop-blur-sm">
-          <p className="mt-1 text-sm text-gray-400">
+        <div className="text-center rounded-2xl glass-panel p-12 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-pf-600 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+          <p className="mt-1 text-sm font-bold text-white tracking-widest uppercase drop-shadow-sm">
             {Object.values(filters).some(v => v !== '' && v !== 'created_at' && v !== 'desc') 
               ? "No tasks found matching your filters." 
               : "This project doesn't have any tasks yet. Create your first task."}
@@ -217,8 +219,9 @@ export default function TaskList({ projectId }) {
 
           {/* Pagination Controls */}
           {pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between border-t border-white/10 glass-panel px-4 py-3 sm:px-6 rounded-2xl mt-6">
-              <div className="flex flex-1 justify-between sm:hidden">
+            <div className="flex items-center justify-between glass-panel px-4 py-3 sm:px-6 rounded-2xl mt-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pf-600/30 to-transparent"></div>
+              <div className="flex flex-1 justify-between sm:hidden relative z-10">
                 <button
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
@@ -234,32 +237,32 @@ export default function TaskList({ projectId }) {
                   Next
                 </button>
               </div>
-              <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+              <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between relative z-10">
                 <div>
-                  <p className="text-sm text-gray-400">
-                    Showing <span className="font-medium text-white">{((pagination.page - 1) * pagination.limit) + 1}</span> to <span className="font-medium text-white">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> of{' '}
-                    <span className="font-medium text-white">{pagination.total}</span> results
+                  <p className="text-sm font-medium text-pf-200/80">
+                    Showing <span className="font-bold text-white drop-shadow-sm">{((pagination.page - 1) * pagination.limit) + 1}</span> to <span className="font-bold text-white drop-shadow-sm">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> of{' '}
+                    <span className="font-bold text-white drop-shadow-sm">{pagination.total}</span> results
                   </p>
                 </div>
                 <div>
-                  <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                  <nav className="isolate inline-flex -space-x-px rounded-md shadow-[0_0_10px_rgba(0,0,0,0.5)]" aria-label="Pagination">
                     <button
                       onClick={() => handlePageChange(pagination.page - 1)}
                       disabled={pagination.page === 1}
-                      className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 bg-zinc-900 border border-white/10 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="relative inline-flex items-center rounded-l-md px-2 py-2 text-pf-400 bg-black/40 border border-white/10 hover:bg-white/10 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                       <span className="sr-only">Previous</span>
                       <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
                       </svg>
                     </button>
-                    <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-zinc-900 border-y border-white/10">
+                    <span className="relative inline-flex items-center px-4 py-2 text-sm font-bold text-white bg-pf-600/20 border-y border-white/10 tracking-widest">
                       Page {pagination.page} of {pagination.totalPages}
                     </span>
                     <button
                       onClick={() => handlePageChange(pagination.page + 1)}
                       disabled={pagination.page === pagination.totalPages}
-                      className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 bg-zinc-900 border border-white/10 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="relative inline-flex items-center rounded-r-md px-2 py-2 text-pf-400 bg-black/40 border border-white/10 hover:bg-white/10 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                       <span className="sr-only">Next</span>
                       <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

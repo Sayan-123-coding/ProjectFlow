@@ -57,15 +57,16 @@ export default function ResetPassword() {
 
   if (sessionError) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-4 bg-pf-900">
-        <div className="w-full max-w-md space-y-8 surface-1 p-8 sm:p-10 rounded-2xl text-center border border-pf-800/50 shadow-2xl">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-[rgba(239,68,68,0.1)] flex items-center justify-center mb-6 border border-[rgba(239,68,68,0.2)] shadow-inner">
-            <svg className="w-7 h-7 text-[rgba(248,113,113,0.9)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden">
+
+        <div className="w-full max-w-md space-y-8 glass-panel p-8 sm:p-10 text-center z-10">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-red-900/40 flex items-center justify-center mb-6 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+            <svg className="w-8 h-8 text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-pf-100">Invalid link</h2>
-          <p className="mt-3 text-[15px] font-medium text-pf-400">
+          <h2 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-md">Invalid link</h2>
+          <p className="mt-3 text-[15px] font-medium text-pf-200/80">
             The password reset link is invalid, expired, or has already been used. Please request a new one.
           </p>
           <div className="mt-8">
@@ -82,22 +83,24 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 bg-pf-900">
-      <div className="w-full max-w-md space-y-8 surface-1 p-8 sm:p-10 rounded-2xl border border-pf-800/50 shadow-2xl">
-        <div className="text-center">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-pf-800/40 flex items-center justify-center mb-6 border border-pf-600/20 shadow-inner">
-            <svg className="w-7 h-7 text-pf-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden">
+
+
+      <div className="w-full max-w-md space-y-8 glass-panel p-8 sm:p-10 z-10">
+        <div className="text-center relative">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 shadow-[0_0_15px_rgba(0,51,255,0.2)]">
+            <svg className="w-8 h-8 text-pf-600 drop-shadow-[0_0_8px_rgba(0,51,255,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-pf-100">Set new password</h2>
-          <p className="mt-3 text-[15px] font-medium text-pf-400">
+          <h2 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-md">Set new password</h2>
+          <p className="mt-3 text-[15px] font-medium text-pf-200/80">
             Please enter your new password below.
           </p>
         </div>
         
         {error && (
-          <div className="rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
+          <div className="rounded-xl bg-red-950/40 backdrop-blur-md p-4 text-sm font-semibold text-red-400 border border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.1)]">
             {error}
           </div>
         )}
@@ -105,7 +108,7 @@ export default function ResetPassword() {
         <form className="mt-8 space-y-6" onSubmit={handleUpdatePassword}>
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="password">New Password</label>
+              <label className="block text-sm font-bold text-pf-400 uppercase tracking-widest mb-2" htmlFor="password">New Password</label>
               <input
                 id="password"
                 type="password"
@@ -117,7 +120,7 @@ export default function ResetPassword() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="confirmPassword">Confirm Password</label>
+              <label className="block text-sm font-bold text-pf-400 uppercase tracking-widest mb-2" htmlFor="confirmPassword">Confirm Password</label>
               <input
                 id="confirmPassword"
                 type="password"

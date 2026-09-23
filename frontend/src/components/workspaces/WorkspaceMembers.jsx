@@ -135,10 +135,11 @@ export default function WorkspaceMembers({ workspaceId }) {
       )}
 
       {showInviteForm && isOwnerOrManager && (
-        <div className="surface-2 p-5 sm:rounded-2xl shadow-sm border border-pf-800/30">
-          <form onSubmit={handleInvite} className="flex flex-col sm:flex-row items-end gap-5">
+        <div className="glass-panel p-5 sm:rounded-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-pf-600 to-transparent"></div>
+          <form onSubmit={handleInvite} className="flex flex-col sm:flex-row items-end gap-5 relative z-10">
             <div className="flex-1 w-full">
-              <label htmlFor="email" className="block text-sm font-bold leading-6 text-pf-200">Email address</label>
+              <label htmlFor="email" className="block text-sm font-bold leading-6 text-pf-400 uppercase tracking-widest drop-shadow-sm">Email address</label>
               <div className="mt-2">
                 <input
                   type="email"
@@ -146,22 +147,22 @@ export default function WorkspaceMembers({ workspaceId }) {
                   required
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="input-dark mt-1"
+                  className="input-dark mt-1 w-full"
                   placeholder="user@example.com"
                 />
               </div>
             </div>
             <div className="w-full sm:w-48">
-              <label htmlFor="role" className="block text-sm font-bold leading-6 text-pf-200">Role</label>
+              <label htmlFor="role" className="block text-sm font-bold leading-6 text-pf-400 uppercase tracking-widest drop-shadow-sm">Role</label>
               <div className="mt-2">
                 <select
                   id="role"
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="input-dark mt-1"
+                  className="input-dark mt-1 w-full"
                 >
-                  <option value="member" className="bg-pf-900">Member</option>
-                  <option value="admin" className="bg-pf-900">Admin</option>
+                  <option value="member" className="bg-black text-white">Member</option>
+                  <option value="admin" className="bg-black text-white">Admin</option>
                 </select>
               </div>
             </div>
@@ -178,24 +179,25 @@ export default function WorkspaceMembers({ workspaceId }) {
       )}
 
       {actionError && (
-        <div className="mb-4 rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4">
-          <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{actionError}</p>
+        <div className="mb-4 rounded-xl bg-red-950/40 border border-red-500/30 p-4 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+          <p className="text-sm font-bold text-red-400 drop-shadow-sm">{actionError}</p>
         </div>
       )}
 
-      <div className="surface-1 overflow-hidden shadow sm:rounded-2xl border border-pf-800/30">
-        <table className="min-w-full divide-y divide-pf-800/50">
-          <thead className="bg-pf-900/50">
+      <div className="glass-panel overflow-hidden sm:rounded-2xl relative">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pf-600/50 to-transparent"></div>
+        <table className="min-w-full divide-y divide-white/10 relative z-10">
+          <thead className="bg-black/40">
             <tr>
-              <th scope="col" className="py-4 pl-4 pr-3 text-left text-xs font-bold text-pf-400 uppercase tracking-widest sm:pl-6">Name</th>
-              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 uppercase tracking-widest">Role</th>
-              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 hidden sm:table-cell uppercase tracking-widest">Joined</th>
+              <th scope="col" className="py-4 pl-4 pr-3 text-left text-xs font-bold text-pf-400 uppercase tracking-widest sm:pl-6 drop-shadow-sm">Name</th>
+              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 uppercase tracking-widest drop-shadow-sm">Role</th>
+              <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 hidden sm:table-cell uppercase tracking-widest drop-shadow-sm">Joined</th>
               <th scope="col" className="relative py-4 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-pf-800/30 bg-transparent">
+          <tbody className="divide-y divide-white/10 bg-transparent">
             {members.map((member) => {
               const isCurrentUser = member.userId === user?.id;
               const isTargetOwner = member.role === 'OWNER';
@@ -205,18 +207,18 @@ export default function WorkspaceMembers({ workspaceId }) {
               const canModify = isOwner && !isCurrentUser;
 
               return (
-                <tr key={member.id} className="hover:bg-pf-800/30 transition-colors">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-[15px] font-bold text-pf-100 sm:pl-6">
+                <tr key={member.id} className="hover:bg-white/5 transition-colors group">
+                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-[15px] font-bold text-white tracking-wide sm:pl-6 drop-shadow-sm group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]">
                     <div className="flex items-center">
                       {member.fullName}
                       {isCurrentUser && (
-                        <span className="ml-3 inline-flex items-center rounded-full bg-pf-800/40 px-2 py-0.5 text-[10px] font-bold text-pf-200 border border-pf-600/20 uppercase tracking-wider">
+                        <span className="ml-3 inline-flex items-center rounded-full bg-pf-600/20 px-2 py-0.5 text-[10px] font-bold text-pf-200 border border-pf-400/30 uppercase tracking-widest shadow-[0_0_8px_rgba(151,125,255,0.2)]">
                           You
                         </span>
                       )}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-[13px] font-semibold text-pf-400">
+                  <td className="whitespace-nowrap px-3 py-4 text-[13px] font-bold text-pf-200">
                     {canModify && !isTargetOwner ? (
                       <select
                         value={member.role}
@@ -224,11 +226,11 @@ export default function WorkspaceMembers({ workspaceId }) {
                         onChange={(e) => handleRoleChange(member.id, e.target.value, member.role)}
                         className="input-dark py-1.5 sm:max-w-xs disabled:opacity-50"
                       >
-                        <option value="MANAGER" className="bg-pf-900">MANAGER</option>
-                        <option value="MEMBER" className="bg-pf-900">MEMBER</option>
+                        <option value="MANAGER" className="bg-black text-white">MANAGER</option>
+                        <option value="MEMBER" className="bg-black text-white">MEMBER</option>
                       </select>
                     ) : (
-                      <span className="inline-flex items-center rounded-md bg-pf-900/50 px-2.5 py-1 text-[11px] font-bold text-pf-400 border border-pf-800/50 uppercase tracking-widest">
+                      <span className="inline-flex items-center rounded-md bg-white/5 px-2.5 py-1 text-[11px] font-bold text-pf-400 border border-white/10 uppercase tracking-widest drop-shadow-sm">
                         {member.role}
                       </span>
                     )}
@@ -237,13 +239,13 @@ export default function WorkspaceMembers({ workspaceId }) {
                   <td className="whitespace-nowrap px-3 py-4 text-[13px] font-medium text-pf-400 hidden sm:table-cell">
                     {new Date(member.joinedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                   </td>
-                  <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6">
+                  <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-bold sm:pr-6">
                     {canModify && !isTargetOwner && (
                       <button
                         type="button"
                         onClick={() => handleRemoveMember(member)}
                         disabled={updatingId === member.id || removingId === member.id}
-                        className="text-[rgba(248,113,113,0.9)] hover:text-red-400 transition-colors disabled:opacity-50"
+                        className="text-red-400 hover:text-red-300 hover:drop-shadow-[0_0_5px_rgba(239,68,68,0.5)] transition-all disabled:opacity-50 uppercase tracking-widest text-[11px]"
                       >
                         {removingId === member.id ? 'Removing...' : 'Remove'}
                       </button>
