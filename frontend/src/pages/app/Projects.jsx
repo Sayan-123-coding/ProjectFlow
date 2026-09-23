@@ -89,11 +89,12 @@ export default function Projects() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-pf-800/30 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-5 relative">
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-pf-600/50 via-pf-400/20 to-transparent"></div>
         <div>
-          <h3 className="text-2xl font-semibold leading-6 text-pf-100 tracking-tight">Projects</h3>
-          <p className="mt-2 text-sm text-pf-400">
-            Workspace: <span className="text-pf-200 font-medium">{currentWorkspace.name}</span>
+          <h3 className="text-2xl font-extrabold leading-6 text-slate-800 tracking-tight">Projects</h3>
+          <p className="mt-2 text-sm font-medium text-slate-500">
+            Workspace: <span className="text-pf-800 font-bold tracking-wide">{currentWorkspace.name}</span>
           </p>
         </div>
         <div className="mt-4 sm:ml-4 sm:mt-0">
@@ -114,12 +115,13 @@ export default function Projects() {
           <p className="text-sm text-red-400">{error}</p>
         </div>
       ) : projects.length === 0 ? (
-        <div className="text-center rounded-2xl border-2 border-dashed border-pf-800/50 bg-pf-900/40 p-12 backdrop-blur-sm">
-          <svg className="mx-auto h-12 w-12 text-pf-600 mb-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        <div className="text-center rounded-2xl glass-panel p-12 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pf-600 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+          <svg className="mx-auto h-12 w-12 text-pf-400 mb-4 opacity-80 drop-shadow-[0_0_10px_rgba(151,125,255,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
           </svg>
-          <h3 className="mt-2 text-sm font-semibold text-pf-200">No projects</h3>
-          <p className="mt-1 text-sm text-pf-400">Get started by creating a new project.</p>
+          <h3 className="mt-2 text-sm font-bold text-white uppercase tracking-widest drop-shadow-sm">No projects</h3>
+          <p className="mt-1 text-sm font-medium text-pf-200/80">Get started by creating a new project.</p>
           <div className="mt-6">
             <button
               onClick={() => setShowCreateModal(true)}
@@ -143,10 +145,11 @@ export default function Projects() {
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="fixed inset-0 bg-pf-900/80 transition-opacity backdrop-blur-md" onClick={() => setShowCreateModal(false)}></div>
-            <div className="relative transform overflow-hidden rounded-2xl bg-pf-900 border border-pf-600/20 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg surface-2">
+            <div className="relative transform overflow-hidden rounded-2xl glass-panel text-left transition-all sm:my-8 sm:w-full sm:max-w-lg z-10">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pf-600 to-pf-400"></div>
               <form onSubmit={handleCreateProject}>
-                <div className="px-6 py-5 border-b border-pf-800/50">
-                  <h3 className="text-lg font-semibold leading-6 text-pf-100">Create New Project</h3>
+                <div className="px-6 py-5 border-b border-white/10 bg-black/20">
+                  <h3 className="text-lg font-extrabold leading-6 text-white drop-shadow-sm">Create New Project</h3>
                 </div>
                 <div className="px-6 py-6">
                   {createError && (
@@ -157,31 +160,31 @@ export default function Projects() {
 
                   <div className="space-y-5">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-pf-200 mb-1.5">Project Name</label>
+                      <label htmlFor="name" className="block text-sm font-bold text-pf-400 uppercase tracking-widest mb-1.5">Project Name</label>
                       <input
                         type="text"
                         id="name"
                         required
                         value={newProjectName}
                         onChange={(e) => setNewProjectName(e.target.value)}
-                        className="input-dark"
+                        className="input-dark w-full"
                         placeholder="E.g., Website Redesign"
                       />
                     </div>
                     <div>
-                      <label htmlFor="description" className="block text-sm font-medium text-pf-200 mb-1.5">Description (optional)</label>
+                      <label htmlFor="description" className="block text-sm font-bold text-pf-400 uppercase tracking-widest mb-1.5">Description (optional)</label>
                       <textarea
                         id="description"
                         rows={3}
                         value={newProjectDesc}
                         onChange={(e) => setNewProjectDesc(e.target.value)}
-                        className="input-dark resize-none"
+                        className="input-dark w-full resize-none"
                         placeholder="Briefly describe the project goals..."
                       />
                     </div>
                   </div>
                 </div>
-                <div className="bg-pf-900/50 px-6 py-4 border-t border-pf-800/50 flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3">
+                <div className="bg-black/40 px-6 py-4 border-t border-white/10 flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3">
                   <button
                     type="button"
                     onClick={() => setShowCreateModal(false)}

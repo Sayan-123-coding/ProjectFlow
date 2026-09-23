@@ -48,26 +48,29 @@ export default function KanbanBoard({ tasks, projectMembers, onUpdate, onDelete,
         return (
           <div 
             key={col.id} 
-            className={`flex-shrink-0 w-[340px] flex flex-col surface-0 rounded-2xl transition-colors duration-200 p-2 ${
-              draggedTaskId ? 'border-pf-600/50 bg-pf-900/60' : ''
+            className={`flex-shrink-0 w-[340px] flex flex-col p-2 rounded-2xl glass-panel relative overflow-hidden transition-all duration-300 group ${
+              draggedTaskId ? 'border-pf-600/50 bg-black/60 shadow-[0_0_15px_rgba(151,125,255,0.2)]' : 'border-white/5 bg-black/30'
             }`}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, col.id)}
           >
-            <div className="flex items-center justify-between mb-3 px-3 py-2">
-              <h4 className="text-sm font-bold text-pf-200 tracking-wide">{col.title}</h4>
-              <span className="inline-flex items-center justify-center min-w-[24px] h-6 rounded-md bg-pf-800/40 px-2 text-[11px] font-bold text-pf-200 border border-pf-600/20">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-pf-600/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center justify-between mb-4 px-3 py-2 relative z-10 border-b border-white/10 pb-3">
+              <h4 className="text-sm font-extrabold text-white tracking-widest uppercase drop-shadow-sm">{col.title}</h4>
+              <span className="inline-flex items-center justify-center min-w-[28px] h-7 rounded-lg bg-black/50 px-2 text-[11px] font-bold text-pf-400 border border-white/10 shadow-inner">
                 {columnTasks.length}
               </span>
             </div>
             
-            <div className="flex-1 space-y-3 min-h-[200px] bg-pf-900/30 rounded-xl p-2 border border-pf-800/20">
+            <div className="flex-1 space-y-4 min-h-[200px] bg-black/40 rounded-xl p-3 border border-white/5 relative z-10 custom-scrollbar overflow-y-auto max-h-[60vh] shadow-inner">
               {columnTasks.length === 0 ? (
-                <div className="h-full min-h-[150px] border-2 border-dashed border-pf-800/50 rounded-xl flex flex-col items-center justify-center p-4">
-                  <svg className="w-8 h-8 text-pf-600 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                  <span className="text-[13px] font-medium text-pf-400">No tasks</span>
+                <div className="h-full min-h-[150px] border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center p-4">
+                  <div className="w-10 h-10 rounded-full bg-pf-900/30 flex items-center justify-center mb-3">
+                    <svg className="w-5 h-5 text-pf-600 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <span className="text-[12px] font-bold tracking-widest text-pf-400 uppercase drop-shadow-sm">No tasks</span>
                 </div>
               ) : (
                 columnTasks.map(task => (

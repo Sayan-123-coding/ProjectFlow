@@ -134,10 +134,11 @@ export default function ProfileSettings() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-10">
-      <div className="md:flex md:items-center md:justify-between">
+    <div className="max-w-3xl mx-auto space-y-10 relative z-10">
+      <div className="md:flex md:items-center md:justify-between pb-5 relative">
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-pf-600/50 via-pf-400/20 to-transparent"></div>
         <div className="min-w-0 flex-1">
-          <h2 className="text-3xl font-bold leading-tight text-pf-100 sm:truncate tracking-wide">
+          <h2 className="text-3xl font-extrabold leading-tight text-slate-800 sm:truncate tracking-wide">
             Profile Settings
           </h2>
         </div>
@@ -145,29 +146,30 @@ export default function ProfileSettings() {
 
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-6 md:grid-cols-3">
         <div className="px-4 sm:px-0">
-          <h2 className="text-base font-bold leading-7 text-pf-200">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-pf-400">
+          <h2 className="text-base font-extrabold leading-7 text-slate-700">Personal Information</h2>
+          <p className="mt-1 text-sm font-medium leading-6 text-slate-500">
             Update your personal details and how you appear to other members.
           </p>
         </div>
 
-        <div className="surface-1 sm:rounded-2xl md:col-span-2 border border-pf-800/30">
-          <form onSubmit={handleSubmit} className="px-5 py-6 sm:p-8 space-y-6">
+        <div className="glass-panel sm:rounded-2xl md:col-span-2 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-pf-600 to-transparent"></div>
+          <form onSubmit={handleSubmit} className="px-5 py-6 sm:p-8 space-y-6 relative z-10">
             
             {error && (
-              <div className="rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4">
-                <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{error}</p>
+              <div className="rounded-xl bg-red-950/40 border border-red-500/30 p-4 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+                <p className="text-sm font-bold text-red-400 drop-shadow-sm">{error}</p>
               </div>
             )}
             
             {success && (
-              <div className="rounded-xl bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.2)] p-4">
-                <p className="text-sm font-semibold text-[rgba(74,222,128,0.9)]">Profile updated successfully.</p>
+              <div className="rounded-xl bg-green-950/40 border border-green-500/30 p-4 backdrop-blur-md shadow-[0_0_10px_rgba(34,197,94,0.1)]">
+                <p className="text-sm font-bold text-green-400 drop-shadow-sm">Profile updated successfully.</p>
               </div>
             )}
 
             <div>
-              <label htmlFor="full_name" className="block text-sm font-bold leading-6 text-pf-200">
+              <label htmlFor="full_name" className="block text-sm font-bold leading-6 text-pf-400 uppercase tracking-widest drop-shadow-sm">
                 Full Name
               </label>
               <div className="mt-2">
@@ -179,13 +181,13 @@ export default function ProfileSettings() {
                   onChange={handleChange}
                   disabled={saving}
                   maxLength={100}
-                  className="input-dark mt-2"
+                  className="input-dark mt-2 w-full"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="avatar_url" className="block text-sm font-bold leading-6 text-pf-200">
+              <label htmlFor="avatar_url" className="block text-sm font-bold leading-6 text-pf-400 uppercase tracking-widest drop-shadow-sm">
                 Avatar URL
               </label>
               <div className="mt-2">
@@ -197,26 +199,26 @@ export default function ProfileSettings() {
                   onChange={handleChange}
                   disabled={saving}
                   placeholder="https://example.com/avatar.jpg"
-                  className="input-dark mt-2"
+                  className="input-dark mt-2 w-full"
                 />
               </div>
-              <p className="mt-2 text-xs font-medium text-pf-600">Provide an optional URL for your profile picture.</p>
+              <p className="mt-2 text-xs font-medium text-pf-600/70">Provide an optional URL for your profile picture.</p>
             </div>
 
-            <div className="pt-6 border-t border-pf-800/50">
-              <h3 className="text-sm font-bold text-pf-200 uppercase tracking-widest mb-4">Account Information</h3>
+            <div className="pt-6 border-t border-white/10">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4 drop-shadow-sm">Account Information</h3>
               <div>
-                <label className="block text-sm font-bold leading-6 text-pf-400">
+                <label className="block text-sm font-bold leading-6 text-pf-400 uppercase tracking-widest drop-shadow-sm">
                   Email Address
                 </label>
                 <div className="mt-2">
-                  <p className="text-[15px] text-pf-100 font-bold">{user?.email}</p>
-                  <p className="text-xs font-medium text-pf-600 mt-2">Email changes are not available here.</p>
+                  <p className="text-[15px] text-white font-bold tracking-wide">{user?.email}</p>
+                  <p className="text-xs font-medium text-pf-600/70 mt-2">Email changes are not available here.</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-x-6 pt-5 border-t border-pf-800/50">
+            <div className="flex items-center justify-end gap-x-6 pt-5 border-t border-white/10">
               <button
                 type="submit"
                 disabled={!hasChanges || saving}

@@ -33,20 +33,21 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 bg-pf-900">
-      <div className="w-full max-w-md space-y-8 surface-1 p-8 sm:p-10 rounded-2xl border border-pf-800/50 shadow-2xl">
-        <div className="text-center">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-pf-800/40 flex items-center justify-center mb-6 border border-pf-600/20 shadow-inner">
-            <svg className="w-7 h-7 text-pf-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden">
+      
+      <div className="w-full max-w-md space-y-8 glass-panel p-8 sm:p-10 z-10">
+        <div className="text-center relative">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 shadow-[0_0_15px_rgba(0,51,255,0.2)]">
+            <svg className="w-8 h-8 text-pf-600 drop-shadow-[0_0_8px_rgba(0,51,255,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-pf-100">Welcome back</h2>
-          <p className="mt-3 text-[15px] font-medium text-pf-400">Sign in to your account to continue</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-md">Welcome back</h2>
+          <p className="mt-3 text-[15px] font-medium text-pf-200/80">Sign in to your account to continue</p>
         </div>
         
         {error && (
-          <div className="rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
+          <div className="rounded-xl bg-red-950/40 backdrop-blur-md p-4 text-sm font-semibold text-red-400 border border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.1)]">
             {error}
           </div>
         )}
@@ -54,7 +55,7 @@ export default function Login() {
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest mb-2" htmlFor="email">Email address</label>
+              <label className="block text-sm font-bold text-pf-400 uppercase tracking-widest mb-2" htmlFor="email">Email address</label>
               <input
                 id="email"
                 type="email"
@@ -67,9 +68,9 @@ export default function Login() {
             </div>
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-bold text-pf-200 uppercase tracking-widest" htmlFor="password">Password</label>
+                <label className="block text-sm font-bold text-pf-400 uppercase tracking-widest" htmlFor="password">Password</label>
                 <div className="text-[13px]">
-                  <Link to="/forgot-password" className="font-bold text-pf-400 hover:text-pf-200 transition-colors">
+                  <Link to="/forgot-password" className="font-bold text-pf-200 hover:text-white transition-colors">
                     Forgot password?
                   </Link>
                 </div>
@@ -96,9 +97,9 @@ export default function Login() {
             </button>
           </div>
           
-          <div className="text-center text-[13px] pt-6 border-t border-pf-800/50 font-medium">
-            <span className="text-pf-400">Don't have an account? </span>
-            <Link to="/register" className="font-bold text-pf-200 hover:text-pf-100 transition-colors ml-1 uppercase tracking-wider">
+          <div className="text-center text-[13px] pt-6 border-t border-white/10 font-medium">
+            <span className="text-pf-400/80">Don't have an account? </span>
+            <Link to="/register" className="font-bold text-pf-200 hover:text-white transition-colors ml-1 uppercase tracking-wider hover:drop-shadow-[0_0_5px_rgba(196,181,253,0.5)]">
               Sign up
             </Link>
           </div>

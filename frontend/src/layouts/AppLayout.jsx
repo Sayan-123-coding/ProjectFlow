@@ -11,23 +11,25 @@ export default function AppLayout() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex text-pf-200">
+    <div className="min-h-screen flex text-pf-200 relative overflow-hidden">
+
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 flex flex-col border-r border-pf-800/30 bg-pf-900/40 backdrop-blur-xl h-screen sticky top-0 z-50">
+      <aside className="w-64 flex-shrink-0 flex flex-col border-r border-white/10 bg-[#0b0c10]/85 backdrop-blur-3xl shadow-[4px_0_24px_rgba(0,0,0,0.1)] h-screen sticky top-0 z-50">
         
         {/* Branding & Workspace Selector */}
-        <div className="p-5 border-b border-pf-800/30">
+        <div className="p-5 border-b border-white/10 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pf-600/50 to-transparent"></div>
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-8 h-8 rounded-lg bg-pf-200 flex items-center justify-center shadow-sm">
-              <svg className="w-5 h-5 text-pf-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shadow-[0_0_15px_rgba(0,51,255,0.2)] border border-white/10">
+              <svg className="w-5 h-5 text-pf-600 drop-shadow-[0_0_8px_rgba(0,51,255,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
-            <span className="text-xl font-bold text-pf-100 tracking-wide">ProjectFlow</span>
+            <span className="text-xl font-extrabold text-white tracking-wide drop-shadow-md">ProjectFlow</span>
           </div>
 
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold text-pf-400 uppercase tracking-wider pl-1">Workspace</label>
+            <label className="text-[11px] font-bold text-pf-200 uppercase tracking-widest pl-1">Workspace</label>
             <div className="flex items-center space-x-2">
               {wsLoading ? (
                 <span className="text-sm text-pf-400 italic">Loading...</span>
@@ -36,16 +38,16 @@ export default function AppLayout() {
               ) : workspaces.length > 0 ? (
                 <div className="flex-1 relative">
                   <select
-                    className="block w-full rounded-md bg-pf-800/20 border border-pf-600/20 py-2 pl-3 pr-8 text-pf-100 text-sm focus:border-pf-400 focus:outline-none focus:ring-1 focus:ring-pf-400 transition-colors appearance-none"
+                    className="block w-full rounded-md bg-white/5 border border-white/10 py-2.5 pl-3 pr-8 text-white text-sm focus:border-pf-600 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-pf-600 transition-all appearance-none shadow-inner cursor-pointer hover:border-pf-400/50"
                     value={currentWorkspace?.id || ''}
                     onChange={(e) => selectWorkspace(e.target.value)}
                   >
                     {workspaces.map(ws => (
-                      <option key={ws.id} value={ws.id} className="bg-pf-900 text-pf-100">{ws.name}</option>
+                      <option key={ws.id} value={ws.id} className="bg-pf-900 text-white">{ws.name}</option>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-pf-400">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-4 w-4 drop-shadow-[0_0_5px_rgba(151,125,255,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -53,7 +55,7 @@ export default function AppLayout() {
               ) : (
                 <button
                   onClick={() => setIsCreateModalOpen(true)}
-                  className="w-full text-left py-2 px-3 text-sm rounded-md border border-dashed border-pf-600/30 text-pf-400 hover:text-pf-200 hover:border-pf-400 transition-colors"
+                  className="w-full text-left py-2.5 px-3 text-sm rounded-md border border-dashed border-pf-400/30 text-pf-400 hover:text-pf-200 hover:border-pf-400 transition-colors bg-white/5"
                 >
                   + Create Workspace
                 </button>
@@ -89,14 +91,14 @@ export default function AppLayout() {
 
         {/* Navigation */}
         <div className="flex-1 px-3 py-6 space-y-2 overflow-y-auto">
-          <label className="px-3 text-[11px] font-semibold text-pf-400 uppercase tracking-wider mb-2 block">Menu</label>
+          <label className="px-3 text-[11px] font-bold text-pf-200 uppercase tracking-widest mb-2 block">Menu</label>
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 isActive 
-                  ? 'bg-gradient-to-r from-pf-800/60 to-pf-600/20 text-pf-100 border border-pf-600/30' 
-                  : 'text-pf-400 hover:bg-pf-800/20 hover:text-pf-200 border border-transparent'
+                  ? 'bg-gradient-to-r from-pf-600/20 to-pf-800/10 text-white border border-pf-600/30 shadow-[0_0_15px_rgba(0,51,255,0.15)]' 
+                  : 'text-pf-400 hover:bg-white/5 hover:text-white border border-transparent'
               }`
             }
           >
@@ -108,10 +110,10 @@ export default function AppLayout() {
           <NavLink
             to="/projects"
             className={({ isActive }) =>
-              `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 isActive 
-                  ? 'bg-gradient-to-r from-pf-800/60 to-pf-600/20 text-pf-100 border border-pf-600/30' 
-                  : 'text-pf-400 hover:bg-pf-800/20 hover:text-pf-200 border border-transparent'
+                  ? 'bg-gradient-to-r from-pf-600/20 to-pf-800/10 text-white border border-pf-600/30 shadow-[0_0_15px_rgba(0,51,255,0.15)]' 
+                  : 'text-pf-400 hover:bg-white/5 hover:text-white border border-transparent'
               }`
             }
           >
@@ -123,15 +125,15 @@ export default function AppLayout() {
         </div>
 
         {/* Profile & Settings (Bottom) */}
-        <div className="p-4 border-t border-pf-800/30">
+        <div className="p-4 border-t border-white/5 bg-[#111319]/50">
           <div className="flex items-center justify-between px-2 mb-4">
             <div className="flex items-center space-x-3 truncate">
-              <div className="w-8 h-8 rounded-full bg-pf-600 flex items-center justify-center text-pf-900 font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pf-600 to-pf-800 flex items-center justify-center text-white font-bold text-sm shrink-0 border border-pf-400/30 shadow-[0_0_10px_rgba(0,51,255,0.3)]">
                 {(profile?.full_name || user?.email || 'U').charAt(0).toUpperCase()}
               </div>
               <div className="flex flex-col truncate">
-                <span className="text-sm font-medium text-pf-200 truncate">{profile?.full_name || 'User'}</span>
-                {user?.email && <span className="text-[11px] text-pf-400 truncate">{user.email}</span>}
+                <span className="text-sm font-bold text-white truncate">{profile?.full_name || 'User'}</span>
+                {user?.email && <span className="text-[11px] font-medium text-pf-400 truncate">{user.email}</span>}
               </div>
             </div>
             <NotificationBell />
@@ -140,13 +142,13 @@ export default function AppLayout() {
           <div className="grid grid-cols-2 gap-2">
             <Link
               to="/profile"
-              className="flex items-center justify-center py-1.5 px-2 rounded-md bg-pf-800/20 text-xs font-medium text-pf-200 border border-pf-600/20 hover:bg-pf-800/50 hover:text-pf-100 transition-colors"
+              className="flex items-center justify-center py-1.5 px-2 rounded-md bg-white/5 text-xs font-bold text-pf-200 border border-white/10 hover:bg-white/10 hover:text-white transition-all shadow-inner"
             >
               Profile
             </Link>
             <button
               onClick={signOut}
-              className="flex items-center justify-center py-1.5 px-2 rounded-md bg-pf-900/40 text-xs font-medium text-pf-400 border border-transparent hover:bg-pf-900 hover:text-pf-200 transition-colors"
+              className="flex items-center justify-center py-1.5 px-2 rounded-md bg-red-950/20 text-xs font-bold text-red-400 border border-transparent hover:bg-red-900/40 hover:text-red-200 hover:border-red-500/30 transition-all"
             >
               Logout
             </button>

@@ -117,46 +117,48 @@ export default function ProjectDetails() {
   return (
     <div className="space-y-8">
       <div>
-        <Link to="/projects" className="text-[13px] font-bold text-pf-600 hover:text-pf-400 transition-colors tracking-wide uppercase">
-          &larr; Back to Projects
+        <Link to="/projects" className="text-[13px] font-bold text-pf-800 hover:text-pf-600 transition-colors tracking-widest uppercase flex items-center gap-1 w-max">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Back to Projects
         </Link>
       </div>
 
-      <div className="surface-2 overflow-hidden sm:rounded-2xl border border-pf-800/30">
+      <div className="glass-panel overflow-hidden sm:rounded-2xl relative group">
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-pf-600/50 to-transparent"></div>
         {deleteError && (
-          <div className="rounded-t-2xl bg-[rgba(239,68,68,0.1)] p-4 border-b border-[rgba(239,68,68,0.2)]">
-            <p className="text-sm font-semibold text-[rgba(248,113,113,0.9)]">{deleteError}</p>
+          <div className="rounded-t-2xl bg-red-950/40 p-4 border-b border-red-500/30 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+            <p className="text-sm font-semibold text-red-400">{deleteError}</p>
           </div>
         )}
         
         {isEditing ? (
-          <div className="px-5 py-6 sm:p-8">
+          <div className="px-5 py-6 sm:p-8 relative z-10">
             <form onSubmit={handleUpdate}>
               {editError && (
-                <div className="mb-5 rounded-xl bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)]">
+                <div className="mb-5 rounded-xl bg-red-950/40 border border-red-500/30 p-4 text-sm font-semibold text-red-400 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
                   {editError}
                 </div>
               )}
               <div className="space-y-5 max-w-xl">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-bold text-pf-200">Project Name</label>
+                  <label htmlFor="name" className="block text-sm font-bold text-pf-400 uppercase tracking-widest drop-shadow-sm">Project Name</label>
                   <input
                     type="text"
                     id="name"
                     required
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="input-dark mt-2"
+                    className="input-dark mt-2 w-full"
                   />
                 </div>
                 <div>
-                  <label htmlFor="description" className="block text-sm font-bold text-pf-200">Description</label>
+                  <label htmlFor="description" className="block text-sm font-bold text-pf-400 uppercase tracking-widest drop-shadow-sm">Description</label>
                   <textarea
                     id="description"
                     rows={4}
                     value={editDesc}
                     onChange={(e) => setEditDesc(e.target.value)}
-                    className="input-dark mt-2"
+                    className="input-dark mt-2 w-full resize-none"
                   />
                 </div>
                 <div className="flex space-x-3 pt-3">
@@ -184,13 +186,13 @@ export default function ProjectDetails() {
             </form>
           </div>
         ) : (
-          <div className="px-5 py-6 sm:p-8 flex flex-col sm:flex-row sm:items-start sm:justify-between">
+          <div className="px-5 py-6 sm:p-8 flex flex-col sm:flex-row sm:items-start sm:justify-between relative z-10">
             <div className="mb-5 sm:mb-0">
-              <h3 className="text-3xl font-bold leading-tight text-pf-100 tracking-wide sm:truncate">
+              <h3 className="text-3xl font-extrabold leading-tight text-white tracking-wide sm:truncate drop-shadow-sm">
                 {project.name}
               </h3>
               {project.description && (
-                <p className="mt-3 text-[15px] leading-relaxed text-pf-400 max-w-3xl">
+                <p className="mt-3 text-[15px] leading-relaxed font-medium text-pf-200/80 max-w-3xl">
                   {project.description}
                 </p>
               )}
@@ -206,7 +208,7 @@ export default function ProjectDetails() {
                 <button
                   onClick={handleDelete}
                   disabled={deleteLoading}
-                  className="inline-flex items-center rounded-lg bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] px-4 py-2 text-sm font-bold text-[rgba(248,113,113,0.9)] shadow-sm hover:bg-[rgba(239,68,68,0.15)] hover:text-red-300 transition-colors disabled:bg-transparent"
+                  className="inline-flex items-center rounded-lg bg-red-950/20 border border-red-500/30 px-4 py-2 text-sm font-bold text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.1)] hover:bg-red-900/40 hover:text-red-200 transition-all disabled:bg-transparent"
                 >
                   {deleteLoading ? 'Deleting...' : 'Delete'}
                 </button>
@@ -216,8 +218,9 @@ export default function ProjectDetails() {
         )}
       </div>
 
-      <div className="surface-1 overflow-hidden sm:rounded-2xl border border-pf-800/20">
-        <div className="p-6">
+      <div className="glass-panel overflow-hidden sm:rounded-2xl relative">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pf-600/30 to-transparent"></div>
+        <div className="p-6 relative z-10">
           <ProjectMembers projectId={projectId} currentWorkspace={currentWorkspace} onPermissionsLoad={setCanManageProject} />
         </div>
       </div>

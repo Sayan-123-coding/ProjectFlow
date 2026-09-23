@@ -37,39 +37,40 @@ export default function CreateWorkspaceModal({ isOpen, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-[#09090b]/80 backdrop-blur-sm transition-opacity" 
+        className="fixed inset-0 bg-pf-900/80 backdrop-blur-md transition-opacity" 
         onClick={onClose}
         aria-hidden="true"
       ></div>
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-md surface-2 rounded-2xl p-7 border border-pf-800/30 shadow-xl transform transition-all">
+      <div className="relative w-full max-w-md glass-panel rounded-2xl p-7 transform transition-all z-10 overflow-hidden group">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pf-600 to-pf-400"></div>
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
           <div>
-            <h3 className="text-2xl font-bold text-pf-100 tracking-wide">Create Workspace</h3>
-            <p className="text-[13px] font-medium text-pf-400 mt-2">Set up a new workspace for your team and projects.</p>
+            <h3 className="text-xl font-extrabold text-white tracking-widest uppercase drop-shadow-sm">Create Workspace</h3>
+            <p className="text-[12px] font-bold text-pf-400 mt-2 tracking-wide">Set up a new workspace for your team and projects.</p>
           </div>
           <button 
             onClick={onClose}
-            className="text-pf-400 hover:text-pf-200 transition-colors rounded-full p-1.5 hover:bg-pf-800/30"
+            className="text-pf-400 hover:text-white transition-all rounded-full p-1.5 hover:bg-white/10 focus:outline-none"
             aria-label="Close modal"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {error && (
-          <div className="mb-5 rounded-xl bg-[rgba(239,68,68,0.1)] p-4 text-sm font-semibold text-[rgba(248,113,113,0.9)] border border-[rgba(239,68,68,0.2)]">
+          <div className="mb-6 rounded-xl bg-red-950/40 p-4 text-sm font-bold text-red-400 border border-red-500/30 backdrop-blur-md shadow-[0_0_10px_rgba(239,68,68,0.1)]">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="workspaceName" className="block text-[13px] font-bold text-pf-200 uppercase tracking-widest mb-2">
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 shadow-inner">
+            <label htmlFor="workspaceName" className="block text-[11px] font-bold text-pf-400 uppercase tracking-widest mb-2 drop-shadow-sm">
               Workspace Name *
             </label>
             <input
@@ -77,39 +78,39 @@ export default function CreateWorkspaceModal({ isOpen, onClose }) {
               id="workspaceName"
               required
               placeholder="e.g. Acme Engineering"
-              className="input-dark w-full"
+              className="input-dark w-full py-2.5"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           
-          <div>
-            <label htmlFor="workspaceDescription" className="block text-[13px] font-bold text-pf-200 uppercase tracking-widest mb-2">
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 shadow-inner">
+            <label htmlFor="workspaceDescription" className="block text-[11px] font-bold text-pf-400 uppercase tracking-widest mb-2 drop-shadow-sm">
               Description
             </label>
             <textarea
               id="workspaceDescription"
               rows={4}
               placeholder="e.g. Core workspace for product sprints"
-              className="input-dark w-full resize-none"
+              className="input-dark w-full resize-none py-2.5"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
-          <div className="flex justify-end gap-4 pt-4 border-t border-pf-800/50 mt-8">
+          <div className="flex justify-end gap-4 pt-6 border-t border-white/10 mt-8">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="btn-secondary"
+              className="btn-secondary w-full sm:w-auto"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="btn-primary flex items-center justify-center min-w-[150px]"
+              className="btn-primary flex items-center justify-center w-full sm:w-auto min-w-[160px]"
             >
               {loading ? (
                 <>
