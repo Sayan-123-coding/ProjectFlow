@@ -173,8 +173,9 @@ export default function ProjectMembers({ projectId, currentWorkspace, onPermissi
       ) : (
         <div className="glass-panel overflow-hidden sm:rounded-2xl relative z-10">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-pf-600/50 to-transparent"></div>
-          <table className="min-w-full divide-y divide-white/10 relative z-10">
-            <thead className="bg-black/40">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-white/10 relative z-10">
+              <thead className="bg-black/40">
               <tr>
                 <th scope="col" className="py-4 pl-4 pr-3 text-left text-xs font-bold text-pf-400 uppercase tracking-widest sm:pl-6 drop-shadow-sm">Name</th>
                 <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-pf-400 uppercase tracking-widest drop-shadow-sm">Role</th>
@@ -233,6 +234,7 @@ export default function ProjectMembers({ projectId, currentWorkspace, onPermissi
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 

@@ -89,6 +89,7 @@ export default function KanbanBoard({ tasks, projectMembers, onUpdate, onDelete,
                       onUpdate={onUpdate}
                       onDelete={onDelete}
                       onClick={onClick}
+                      onStatusChange={onStatusChange}
                     />
                   </div>
                 ))
